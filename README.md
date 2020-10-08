@@ -1,8 +1,6 @@
-# GRPC Generator Template
+# GRPC Act Fix Library
 
 ## Current supported languages: Java, Python
-Fork this project and follow instructions.
-
 This tool generates code from `.proto` files and upload constructed packages (`.proto` files with generated code) to desired repositories.
 
 ### How to use:

@@ -17,6 +17,7 @@ from setuptools.command.sdist import sdist
 from distutils.dir_util import copy_tree
 import shutil
 from pkg_resources import resource_filename
+from distutils.sysconfig import get_python_lib
 import os
 from setuptools import setup, find_packages
 from os import environ
@@ -51,7 +52,8 @@ class ProtoGenerator(Command):
 
         protos = [('grpc_tools', '_proto')]
         protos_include = [f'--proto_path={proto_path}'] + \
-                         [f'--proto_path={resource_filename(x[0], x[1])}' for x in protos]
+                         [f'--proto_path={resource_filename(x[0], x[1])}' for x in protos] + \
+                         [f'--proto_path={get_python_lib()}']
 
         from grpc_tools import protoc
         for proto_file in proto_files:
