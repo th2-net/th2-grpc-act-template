@@ -16,7 +16,7 @@
 
 syntax = "proto3";
 
-import "th2/Foo.proto";
+import "grpc_generator_template/Foo.proto";
 import "google/protobuf/empty.proto";
 
 option java_multiple_files = true;

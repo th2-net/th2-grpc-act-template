@@ -14,11 +14,14 @@
 
 from distutils.cmd import Command
 from setuptools.command.sdist import sdist
+from distutils.dir_util import copy_tree
 import shutil
-import pkg_resources
+from pkg_resources import resource_filename
 import os
 from setuptools import setup, find_packages
 from os import environ
+from pathlib import Path
+from lib2to3.main import main as convert2to3
 
 
 class ProtoGenerator(Command):
@@ -46,17 +49,17 @@ class ProtoGenerator(Command):
                 if filename.endswith('.proto'):
                     proto_files.append(os.path.abspath(os.path.join(root, filename)))
 
-        well_known_protos_include = pkg_resources.resource_filename('grpc_tools', '_proto')
+        protos = [('grpc_tools', '_proto')]
+        protos_include = [f'--proto_path={proto_path}'] + \
+                         [f'--proto_path={resource_filename(x[0], x[1])}' for x in protos]
 
         from grpc_tools import protoc
         for proto_file in proto_files:
-            command = [
-                          'grpc_tools.protoc',
-                          '--proto_path={}'.format(proto_path),
-                          '--proto_path={}'.format(well_known_protos_include),
-                          '--python_out={}'.format(gen_path),
-                          '--grpc_python_out={}'.format(gen_path),
-                      ] + [proto_file]
+            command = ['grpc_tools.protoc'] + \
+                      protos_include + \
+                      ['--python_out={}'.format(gen_path), '--grpc_python_out={}'.format(gen_path)] + \
+                      [proto_file]
+
             if protoc.main(command) != 0:
                 if self.strict_mode:
                     raise Exception('error: {} failed'.format(command))
@@ -65,18 +68,25 @@ class ProtoGenerator(Command):
 class CustomDist(sdist):
 
     def run(self):
-        package_name = self.distribution.metadata.name
+        copy_tree(f'src/main/proto/{package_name}', f'{package_name}')
 
-        shutil.copytree('src/main/proto/th2', f'{package_name}/proto')
-        shutil.copytree('src/gen/main/python/th2', f'{package_name}/grpc')
+        copy_tree(f'src/gen/main/python/{package_name}', f'{package_name}')
+        Path(f'{package_name}/__init__.py').touch()
+        convert2to3('lib2to3.fixes', [f'{package_name}', '-w', '-n'])
 
         sdist.run(self)
 
         shutil.rmtree(package_name, ignore_errors=True)
 
 
-package_name = environ['APP_NAME'].replace('-', '_') if 'APP_NAME' in environ else 'grpc_generator_template'
-package_version = environ['APP_VERSION'] if 'APP_VERSION' in environ else '1.0'
+package_name = 'grpc_generator_template'
+
+with open('version.info', 'r') as file:
+    package_version = file.read()
+
+with open('README.md', 'r') as file:
+    long_description = file.read()
+
 
 setup(
     name=package_name,
@@ -87,9 +97,9 @@ setup(
     python_requires='>=3.7',
     author_email='th2-devs@exactprosystems.com',
     description='grpc-generator-template',
-    long_description=open('README.md').read(),
-    packages=[package_name, f'{package_name}/proto', f'{package_name}/grpc'],
-    package_data={f'{package_name}/proto': ['*.proto']},
+    long_description=long_description,
+    packages=['', package_name],
+    package_data={'': ['version.info'], package_name: ['*.proto']},
     cmdclass={
         'generate': ProtoGenerator,
         'sdist': CustomDist
