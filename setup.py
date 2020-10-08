@@ -81,7 +81,7 @@ class CustomDist(sdist):
         shutil.rmtree(package_name, ignore_errors=True)
 
 
-package_name = 'grpc_generator_template'
+package_name = 'grpc_act_fix'
 
 with open('version.info', 'r') as file:
     package_version = file.read()
