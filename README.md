@@ -4,7 +4,7 @@
 This tool generates code from `.proto` files and upload constructed packages (`.proto` files with generated code) to desired repositories.
 
 ### How to use:
-1. Edit `rootProject.name` variable in `settings.gradle file`. This will be the name of Java package.
+1. Edit `rootProject.name` variable in `settings.gradle` file. This will be the name of Java package.
 2. Edit `package_name` variable in `setup.py`. This will be the name of Python package. <br>
 You can also edit parameters of `setup.py` in `setup` function invocation such as: `url`, `author`, `author_email`, `description`. <br> 
 Do not edit the others.
