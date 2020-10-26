@@ -18,7 +18,6 @@ from distutils.cmd import Command
 import os
 from pkg_resources import resource_filename
 from distutils.sysconfig import get_python_lib
-from grpc_tools import protoc
 from setuptools.command.sdist import sdist
 from distutils.dir_util import copy_tree
 from shutil import rmtree
@@ -109,7 +108,7 @@ setup(
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        get_dependency(dependency_name='grpc-common', dependency_version='2.1.6')
+        get_dependency(dependency_name='grpc-common', dependency_version='2.1.7')
     ],
     packages=['', package_name],
     package_data={'': ['package_info.json'], package_name: ['*.proto']},
