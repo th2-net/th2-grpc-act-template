@@ -15,6 +15,7 @@
  */
 
 syntax = "proto3";
+package th2;
 
 import "grpc_common/common.proto";
 

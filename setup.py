@@ -13,13 +13,15 @@
 #   limitations under the License.
 
 from setuptools import setup
+import json
 from distutils.cmd import Command
 import os
 from pkg_resources import resource_filename
 from distutils.sysconfig import get_python_lib
+from grpc_tools import protoc
 from setuptools.command.sdist import sdist
 from distutils.dir_util import copy_tree
-import shutil
+from shutil import rmtree
 from pathlib import Path
 from lib2to3.main import main as convert2to3
 
@@ -69,21 +71,28 @@ class ProtoGenerator(Command):
 class CustomDist(sdist):
 
     def run(self):
-        copy_tree(f'src/main/proto/{package_name}', f'{package_name}')
+        copy_tree(f'src/main/proto/{package_name}', package_name)
 
-        copy_tree(f'src/gen/main/python/{package_name}', f'{package_name}')
+        copy_tree(f'src/gen/main/python/{package_name}', package_name)
         Path(f'{package_name}/__init__.py').touch()
-        convert2to3('lib2to3.fixes', [f'{package_name}', '-w', '-n'])
+        convert2to3('lib2to3.fixes', [package_name, '-w', '-n'])
 
         sdist.run(self)
 
-        shutil.rmtree(package_name, ignore_errors=True)
+        rmtree(package_name, ignore_errors=True)
 
 
-package_name = 'grpc_act_fix'
+def get_dependency(dependency_name, dependency_version,
+                   dependency_repository='https://nexus.exactpro.com/repository/th2-pypi/packages/'):
+    return f"{dependency_name} @ {dependency_repository}{dependency_name}/{dependency_version}/" \
+           f"{dependency_name.replace('-', '_')}-{dependency_version}.tar.gz"
 
-with open('version.info', 'r') as file:
-    package_version = file.read()
+
+with open('package_info.json', 'r') as file:
+    package_info = json.load(file)
+
+package_name = package_info['package_name'].replace('-', '_')
+package_version = package_info['package_version']
 
 with open('README.md', 'r') as file:
     long_description = file.read()
@@ -92,15 +101,18 @@ with open('README.md', 'r') as file:
 setup(
     name=package_name,
     version=package_version,
-    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/th2-grpc-act-fix',
-    license='Apache License 2.0',
-    author='TH2-devs',
-    python_requires='>=3.7',
-    author_email='th2-devs@exactprosystems.com',
-    description='grpc-act-fix',
+    description=package_name,
     long_description=long_description,
+    author='TH2-devs',
+    author_email='th2-devs@exactprosystems.com',
+    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/th2-grpc-common',
+    license='Apache License 2.0',
+    python_requires='>=3.7',
+    install_requires=[
+        get_dependency(dependency_name='grpc-common', dependency_version='2.1.6')
+    ],
     packages=['', package_name],
-    package_data={'': ['version.info'], package_name: ['*.proto']},
+    package_data={'': ['package_info.json'], package_name: ['*.proto']},
     cmdclass={
         'generate': ProtoGenerator,
         'sdist': CustomDist
