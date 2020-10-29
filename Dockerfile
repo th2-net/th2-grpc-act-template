@@ -29,7 +29,7 @@ RUN gradle --no-daemon clean build artifactoryPublish \
 FROM nexus.exactpro.com:9000/th2-python-service-generator:1.1.1 as generator
 WORKDIR /home/project
 COPY ./ .
-RUN /home/service/bin/service -p src/main/proto/grpc_act_fix -w PythonServiceWriter -o src/gen/main/python/grpc_act_fix
+RUN /home/service/bin/service -p src/main/proto/grpc_act_template -w PythonServiceWriter -o src/gen/main/python/grpc_act_template
 
 FROM python:3.8-slim as python
 ARG pypi_repository_url
