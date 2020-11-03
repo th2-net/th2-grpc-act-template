@@ -1,6 +1,15 @@
+.idea
+
+.git
+
 .gradle
 gradle*
-.idea
 build
+
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
 dist
 *egg-info

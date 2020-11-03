@@ -108,7 +108,7 @@ setup(
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        get_dependency(dependency_name='grpc-common', dependency_version='2.1.7')
+        get_dependency(dependency_name='th2-grpc-common', dependency_version='2.2.0')
     ],
     packages=['', package_name],
     package_data={'': ['package_info.json'], package_name: ['*.proto']},

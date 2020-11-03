@@ -1,5 +1,11 @@
-.gradle
 .idea
+
+.gradle
 build
+
+__pycache__/
+*.py[cod]
+*$py.class
+
 dist
 *egg-info
