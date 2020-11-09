@@ -12,17 +12,17 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from setuptools import setup
 import json
-from distutils.cmd import Command
 import os
-from pkg_resources import resource_filename
-from distutils.sysconfig import get_python_lib
-from setuptools.command.sdist import sdist
+from distutils.cmd import Command
 from distutils.dir_util import copy_tree
-from shutil import rmtree
+from distutils.sysconfig import get_python_lib
 from pathlib import Path
-from lib2to3.main import main as convert2to3
+from shutil import rmtree
+
+from pkg_resources import resource_filename
+from setuptools import setup
+from setuptools.command.sdist import sdist
 
 
 class ProtoGenerator(Command):
@@ -74,7 +74,6 @@ class CustomDist(sdist):
 
         copy_tree(f'src/gen/main/python/{package_name}', package_name)
         Path(f'{package_name}/__init__.py').touch()
-        convert2to3('lib2to3.fixes', [package_name, '-w', '-n'])
 
         sdist.run(self)
 
@@ -104,11 +103,11 @@ setup(
     long_description=long_description,
     author='TH2-devs',
     author_email='th2-devs@exactprosystems.com',
-    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/th2-grpc-common',
+    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/th2-grpc-act-template',
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        get_dependency(dependency_name='th2-grpc-common', dependency_version='2.2.0')
+        get_dependency(dependency_name='th2-grpc-common', dependency_version='2.2.1')
     ],
     packages=['', package_name],
     package_data={'': ['package_info.json'], package_name: ['*.proto']},

@@ -1,4 +1,4 @@
-# GRPC Act Template Library
+# gRPC Act Template Library
 
 This tool generates code from `.proto` files and upload constructed packages (`.proto` files and generated code) to specified repositories.
 

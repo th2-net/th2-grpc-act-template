@@ -14,7 +14,6 @@
 
 
 grpcio-tools==1.33.1
-google-api-core==1.23.0
 twine==3.2.0
 --extra-index-url https://nexus.exactpro.com/repository/th2-pypi/simple/
-th2-grpc-common==2.2.0
+th2-grpc-common==2.2.1
