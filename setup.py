@@ -80,12 +80,6 @@ class CustomDist(sdist):
         rmtree(package_name, ignore_errors=True)
 
 
-def get_dependency(dependency_name, dependency_version,
-                   dependency_repository='https://nexus.exactpro.com/repository/th2-pypi/packages/'):
-    return f"{dependency_name} @ {dependency_repository}{dependency_name}/{dependency_version}/" \
-           f"{dependency_name.replace('-', '_')}-{dependency_version}.tar.gz"
-
-
 with open('package_info.json', 'r') as file:
     package_info = json.load(file)
 
@@ -101,13 +95,14 @@ setup(
     version=package_version,
     description=package_name,
     long_description=long_description,
+    long_description_content_type='text/markdown',
     author='TH2-devs',
     author_email='th2-devs@exactprosystems.com',
-    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/th2-grpc-act-template',
+    url='https://github.com/th2-net/th2-grpc-act-template',
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        get_dependency(dependency_name='th2-grpc-common', dependency_version='2.2.1')
+        'th2-grpc-common==2.3.0'
     ],
     packages=['', package_name],
     package_data={'': ['package_info.json'], package_name: ['*.proto']},
