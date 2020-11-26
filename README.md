@@ -3,7 +3,7 @@
 This is the template project for creating custom gRPC act libraries. It contains proto messages and `Act` service that are used [th2 act template](https://github.com/th2-net/th2-act-template-j "th2-act-template-j"). See [act_template.proto](src/main/proto/th2_grpc_act_template/act_template.proto "act_template.proto") file for details. <br>
 Tool generates code from `.proto` files and uploads built packages (`.proto` files and generated code) to specified repositories.
 
-## How to transform template:
+## How to transform template
 1. Create a directory with the same name as project name (use underscores instead of dashes) under `src/main/proto` directory (remove other files and directories if they exist).
 2. Place your custom `.proto` files in created directory. Pay attention to `package` specifier and `import` statements.
 3. Edit `release_version` and `vcs_url` properties in `gradle.properties` file.
