@@ -13,12 +13,13 @@ Tool generates code from `.proto` files and uploads built packages (`.proto` fil
 
 Note that the name of created directory under `src/main/proto` directory is used in Python (it's a package name).
 
-## How to maintain project:
+## How to maintain project
 1. Make your changes.
 2. Up version of Java package in `gradle.properties` file.
 3. Up version of Python package in `package_info.json` file.
 4. Commit everything.
 
+## How to run project
 ### Java
 If you wish to manually create and publish package for Java, run these command:
 ```
