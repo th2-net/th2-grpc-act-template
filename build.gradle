@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-    api platform('com.exactpro.th2:bom:2.3.+')
+    api platform('com.exactpro.th2:bom:2.10.0')
 
     implementation "com.exactpro.th2:grpc-common"
 
