@@ -1,18 +1,17 @@
-ARG release_version
+FROM gradle:6.6-jdk11 as java_generator
+
+ARG nexus_url
+ARG nexus_user
+ARG nexus_password
 
 ARG pypi_repository_url
 ARG pypi_user
 ARG pypi_password
-ARG app_name
-ARG app_version
 
-FROM gradle:6.6-jdk11 as java_generator
 WORKDIR /home/project
-ARG release_version
 
 COPY ./ .
-RUN gradle --no-daemon clean build publish bintrayUpload \
-    -Prelease_version=${release_version} \
+RUN ./gradlew clean build publish \
     -Pnexus_url=${nexus_url} \
     -Pnexus_user=${nexus_user} \
     -Pnexus_password=${nexus_password}
@@ -26,8 +25,6 @@ FROM python:3.8-slim as python_generator
 ARG pypi_repository_url
 ARG pypi_user
 ARG pypi_password
-ARG app_name
-ARG app_version
 
 WORKDIR /home/project
 COPY --from=python_service_generator /home/project .

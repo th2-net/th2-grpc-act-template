@@ -105,7 +105,11 @@ serviceGeneration {
         outDir = "src/gen/main/services"
     }
 }
-
+tasks.withType(PublishToMavenRepository) {
+    onlyIf {
+        (publication == publishing.publications.mavenJava)
+    }
+}
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -127,6 +131,16 @@ publishing {
         maven {
             name = "localRepo"
             url = sharedDir
+        }
+    }
+    repositories {
+        maven {
+            name = 'nexusRepository'
+            credentials {
+                username = "${nexus_user}"
+                password = "${nexus_password}"
+            }
+            url = "${nexus_url}"
         }
     }
 }
