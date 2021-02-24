@@ -20,6 +20,7 @@ Note that the name of created directory under `src/main/proto` directory is used
 4. Commit everything.
 
 ## How to run project
+
 ### Java
 If you wish to manually create and publish package for Java, run these command:
 ```
@@ -31,15 +32,11 @@ gradle --no-daemon clean build publish artifactoryPublish \
 
 ### Python
 If you wish to manually create and publish package for Python:
-1. Generate services from `.proto` files:
-    - Download and build [th2 Python service generator](https://github.com/th2-net/th2-python-service-generator "th2-python-service-generator") project with Gradle:
-        ```
-        gradle clean build
-        ```
-    - Run th2 Python service generator:
-        ```
-        java -jar {path_to_jar} -p src/main/proto/{package_name} -w PythonServiceWriter -o src/gen/main/python/{package_name}
-       ```
+1. Generate services by gradle:
+    ```
+       gradle --no-daemon clean generateProto
+    ```
+   You can find the generated files by following path: `src/gen/main/services/python`
 2. Generate code from `.proto` files and publish everything:
     ```
     pip install -r requirements.txt
@@ -47,4 +44,4 @@ If you wish to manually create and publish package for Python:
     python setup.py sdist
     twine upload --repository-url ${PYPI_REPOSITORY_URL} --username ${PYPI_USER} --password ${PYPI_PASSWORD} dist/*
     ```
-    `PYPI_REPOSITORY_URL`, `PYPI_USER` and `PYPI_PASSWORD` are parameters for publishing.
+   `PYPI_REPOSITORY_URL`, `PYPI_USER` and `PYPI_PASSWORD` are parameters for publishing.
