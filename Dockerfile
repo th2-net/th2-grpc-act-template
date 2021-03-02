@@ -3,7 +3,6 @@ WORKDIR /home/project
 ARG nexus_url
 ARG nexus_user
 ARG nexus_password
-ARG release_version
 
 COPY ./ .
 RUN ./gradlew clean build publish \
