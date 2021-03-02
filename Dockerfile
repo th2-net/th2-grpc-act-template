@@ -8,9 +8,8 @@ COPY ./ .
 RUN ./gradlew clean build publish \
     -Pnexus_url=${nexus_url} \
     -Pnexus_user=${nexus_user} \
-    -Pnexus_password=${nexus_password} \
-    -Prelease_version=${release_version}
-
+    -Pnexus_password=${nexus_password}
+    
 FROM python:3.8-slim as python_generator
 ARG pypi_repository_url
 ARG pypi_user
