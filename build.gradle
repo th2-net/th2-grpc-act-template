@@ -5,6 +5,7 @@ plugins {
     id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
     id 'signing'
     id "com.google.protobuf" version "0.8.15"
+    id 'com.github.hierynomus.license' version '0.15.0'
 }
 
 group = 'com.exactpro.th2'
