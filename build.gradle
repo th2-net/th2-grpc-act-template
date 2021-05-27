@@ -16,7 +16,7 @@ targetCompatibility = 11
 ext {
     grpcVersion                 = '1.32.1'
     protobufVersion             = '3.13.0'
-    serviceGeneratorVersion     = '3.1.10'
+    serviceGeneratorVersion     = '3.1.11'
 
     genDir              = file("${project.rootDir}/src/gen")
     sharedDir           = file("${project.rootDir}/shared")
@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    api platform('com.exactpro.th2:bom:2.10.2')
+    api platform('com.exactpro.th2:bom:3.0.0')
 
     api "com.exactpro.th2:grpc-common:2.5.2"
 
