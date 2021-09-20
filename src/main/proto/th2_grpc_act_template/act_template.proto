@@ -49,8 +49,29 @@ service Act {
 
   rpc placeQuoteResponseFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
-}
 
+  rpc requestMessage (MessageRequest) returns (stream MessageResponse) {
+  }
+}
+message MatchingField{
+    repeated string path = 1;
+    string value = 2;
+}
+message ResponseMapper{
+    string message_type = 1;
+    repeated MatchingField matching_fields = 2;
+    bool is_passed = 3;
+}
+message MessageRequest{
+    int64 timeout = 1;
+    repeated ResponseMapper response_mappers = 2;
+    EventID parent_event_id = 4;
+    string description = 5;
+}
+message MessageResponse{
+    Message response_message = 1;
+    RequestStatus status = 2;
+}
 message SendMessageResponse {
   RequestStatus status = 1;
   Checkpoint checkpoint_id = 2;
