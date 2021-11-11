@@ -51,34 +51,73 @@ service ActTyped {
   }
 }
 
-message TradingParty {
-  message TradingPartyValue {
+message NoPartyIDs {
     string MessageType = 1;
     string PartyID = 2;
     string PartyIDSource = 3;
-    string PartyRole = 4;
-  }
+    int64 PartyRole = 4;
+}
 
-  repeated TradingPartyValue value = 1;
+message TradingParty {
+  repeated NoPartyIDs NoPartyIDs = 1;
 }
 
 message NewOrderSingle {
   string SecurityID = 1;
-  string SecurityIDSource = 2;
-  string OrdType = 3;
-  string AccountType = 4;
+  int64 SecurityIDSource = 2;
+  int64 OrdType = 3;
+  int64 AccountType = 4;
   string OrderCapacity = 5;
-  string OrderQty = 6;
-  string DisplayQty = 7;
-  string Price = 8;
-  string ClOrdID = 9;
-  string SecondaryClOrdID = 10;
-  string Side = 11;
-  string TimeInForce = 12;
+  int64 OrderQty = 6;
+  int64 DisplayQty = 7;
+  int64 Price = 8;
+  int64 ClOrdID = 9;
+  int64 SecondaryClOrdID = 10;
+  int64 Side = 11;
+  int64 TimeInForce = 12;
   string TransactTime = 13;
-  TradingParty trading_party = 14;
+  TradingParty TradingParty = 14;
+}
 
-  string SessionAlias = 15;
+message Header {
+  string BeginString = 1;
+  int64 BodyLength = 2;
+  int64 MsgSeqNum = 3;
+  int64 MsgType = 4;
+  string SenderCompID = 5;
+  string SendingTime = 6;
+  string TargetCompID = 7;
+}
+
+message ExecutionReport {
+  string SecurityID = 1;
+  int64 SecurityIDSource = 2;
+  int64 OrdType = 3;
+  int64 AccountType = 4;
+  string OrderCapacity = 5;
+  int64 ClOrdID = 6;
+  int64 OrderQty = 7;
+  int64 LeavesQty = 8;
+  int64 Side = 9;
+  int64 CumQty = 10;
+  int64 ExecType = 11;
+  int64 OrdStatus = 12;
+  TradingParty TradingParty = 13;
+  int64 ExecID = 14;
+  int64 Price = 15;
+  int64 OrderID = 16;
+  string Text = 17;
+  int64 TimeInForce = 18;
+  Header header = 19;
+}
+
+message MessageTyped {
+  EventID parent_event_id = 3; // It maybe used to store event related to message life cycle
+  MessageMetadata metadata = 1;
+  oneof kind {
+    NewOrderSingle new_order_single = 2;
+    ExecutionReport execution_report = 4;
+  }
 }
 
 message SendMessageResponseTyped {
@@ -87,10 +126,7 @@ message SendMessageResponseTyped {
 }
 
 message PlaceMessageRequestTyped {
-  NewOrderSingle new_order_single = 1;
-  /* Please set connection_id into message. Act transfer this value into message
-   * automatically if message hasn't connectivityID for backward compatibility */
-  ConnectionID connection_id = 2[deprecated = true];
+  MessageTyped message_typed = 1;
   EventID parent_event_id = 4;
   string description = 5;
 }
