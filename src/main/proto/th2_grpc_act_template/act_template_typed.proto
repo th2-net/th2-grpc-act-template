@@ -52,10 +52,10 @@ service ActTyped {
 }
 
 message NoPartyIDs {
-    string MessageType = 1;
-    string PartyID = 2;
-    string PartyIDSource = 3;
-    int64 PartyRole = 4;
+  MessageMetadata metadata = 1;
+  string PartyID = 2;
+  string PartyIDSource = 3;
+  int64 PartyRole = 4;
 }
 
 message TradingParty {
@@ -115,8 +115,8 @@ message MessageTyped {
   EventID parent_event_id = 3; // It maybe used to store event related to message life cycle
   MessageMetadata metadata = 1;
   oneof kind {
-    NewOrderSingle new_order_single = 2;
-    ExecutionReport execution_report = 4;
+    NewOrderSingle NewOrderSingle = 2;
+    ExecutionReport ExecutionReport = 4;
   }
 }
 
@@ -132,7 +132,7 @@ message PlaceMessageRequestTyped {
 }
 
 message PlaceMessageResponseTyped {
-  Message response_message = 1;
+  MessageTyped response_message = 1;
   RequestStatus status = 2;
   Checkpoint checkpoint_id = 3;
 }
