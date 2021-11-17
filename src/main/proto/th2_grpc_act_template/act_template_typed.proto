@@ -53,7 +53,7 @@ service ActTyped {
 }
 
 message NoPartyIDs {
-  string message_type = 1;
+  MessageMetadata metadata = 1;
   string PartyID = 2;
   string PartyIDSource = 3;
   int32 PartyRole = 4;
@@ -114,14 +114,14 @@ message ExecutionReport {
 
 message PlaceMessageRequestTyped {
   MessageMetadata metadata = 1;
-  NewOrderSingle NewOrderSingle = 2;
+  NewOrderSingle message = 2;
   EventID parent_event_id = 3;
   string description = 4;
 }
 
 message PlaceMessageResponseTyped {
   MessageMetadata metadata = 1;
-  ExecutionReport ExecutionReport = 2;
+  ExecutionReport message_response = 2;
   RequestStatus status = 3;
   Checkpoint checkpoint_id = 4;
 }
