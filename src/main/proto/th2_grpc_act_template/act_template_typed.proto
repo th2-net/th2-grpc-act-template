@@ -17,6 +17,7 @@
 syntax = "proto3";
 
 import "th2_grpc_common/common.proto";
+import "th2_grpc_act_template/act_template.proto";
 
 option java_multiple_files = true;
 option java_package = "com.exactpro.th2.act.grpc";
@@ -32,7 +33,7 @@ service ActTyped {
   }
 
   /*Send fix message without response awaiting */
-  rpc sendMessage (PlaceMessageRequestTyped) returns (SendMessageResponseTyped) {
+  rpc sendMessage (PlaceMessageRequestTyped) returns (SendMessageResponse) {
   }
 
   rpc placeQuoteRequestFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
@@ -52,10 +53,10 @@ service ActTyped {
 }
 
 message NoPartyIDs {
-  MessageMetadata metadata = 1;
+  string message_type = 1;
   string PartyID = 2;
   string PartyIDSource = 3;
-  int64 PartyRole = 4;
+  int32 PartyRole = 4;
 }
 
 message TradingParty {
@@ -64,26 +65,26 @@ message TradingParty {
 
 message NewOrderSingle {
   string SecurityID = 1;
-  int64 SecurityIDSource = 2;
-  int64 OrdType = 3;
-  int64 AccountType = 4;
+  string SecurityIDSource = 2;
+  string OrdType = 3;
+  int32 AccountType = 4;
   string OrderCapacity = 5;
-  int64 OrderQty = 6;
-  int64 DisplayQty = 7;
-  int64 Price = 8;
-  int64 ClOrdID = 9;
-  int64 SecondaryClOrdID = 10;
-  int64 Side = 11;
-  int64 TimeInForce = 12;
+  float OrderQty = 6;
+  float DisplayQty = 7;
+  float Price = 8;
+  string ClOrdID = 9;
+  string SecondaryClOrdID = 10;
+  string Side = 11;
+  string TimeInForce = 12;
   string TransactTime = 13;
   TradingParty TradingParty = 14;
 }
 
 message Header {
   string BeginString = 1;
-  int64 BodyLength = 2;
-  int64 MsgSeqNum = 3;
-  int64 MsgType = 4;
+  int32 BodyLength = 2;
+  int32 MsgSeqNum = 3;
+  string MsgType = 4;
   string SenderCompID = 5;
   string SendingTime = 6;
   string TargetCompID = 7;
@@ -91,48 +92,36 @@ message Header {
 
 message ExecutionReport {
   string SecurityID = 1;
-  int64 SecurityIDSource = 2;
-  int64 OrdType = 3;
-  int64 AccountType = 4;
+  string SecurityIDSource = 2;
+  string OrdType = 3;
+  int32 AccountType = 4;
   string OrderCapacity = 5;
-  int64 ClOrdID = 6;
-  int64 OrderQty = 7;
-  int64 LeavesQty = 8;
-  int64 Side = 9;
-  int64 CumQty = 10;
-  int64 ExecType = 11;
-  int64 OrdStatus = 12;
+  float ClOrdID = 6;
+  float OrderQty = 7;
+  float LeavesQty = 8;
+  string Side = 9;
+  float CumQty = 10;
+  string ExecType = 11;
+  string OrdStatus = 12;
   TradingParty TradingParty = 13;
-  int64 ExecID = 14;
-  int64 Price = 15;
-  int64 OrderID = 16;
+  string ExecID = 14;
+  float Price = 15;
+  string OrderID = 16;
   string Text = 17;
-  int64 TimeInForce = 18;
+  string TimeInForce = 18;
   Header header = 19;
 }
 
-message MessageTyped {
-  EventID parent_event_id = 3; // It maybe used to store event related to message life cycle
-  MessageMetadata metadata = 1;
-  oneof kind {
-    NewOrderSingle NewOrderSingle = 2;
-    ExecutionReport ExecutionReport = 4;
-  }
-}
-
-message SendMessageResponseTyped {
-  RequestStatus status = 1;
-  Checkpoint checkpoint_id = 2;
-}
-
 message PlaceMessageRequestTyped {
-  MessageTyped message_typed = 1;
-  EventID parent_event_id = 4;
-  string description = 5;
+  MessageMetadata metadata = 1;
+  NewOrderSingle NewOrderSingle = 2;
+  EventID parent_event_id = 3;
+  string description = 4;
 }
 
 message PlaceMessageResponseTyped {
-  MessageTyped response_message = 1;
-  RequestStatus status = 2;
-  Checkpoint checkpoint_id = 3;
+  MessageMetadata metadata = 1;
+  ExecutionReport ExecutionReport = 2;
+  RequestStatus status = 3;
+  Checkpoint checkpoint_id = 4;
 }
