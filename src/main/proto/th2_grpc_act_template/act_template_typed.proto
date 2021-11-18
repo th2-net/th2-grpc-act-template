@@ -90,6 +90,12 @@ message Header {
   string TargetCompID = 7;
 }
 
+message Trailer {
+  int32 SignatureLength = 1;
+  string Signature = 2;
+  string CheckSum = 3;
+}
+
 message ExecutionReport {
   string SecurityID = 1;
   string SecurityIDSource = 2;
@@ -109,19 +115,22 @@ message ExecutionReport {
   string OrderID = 16;
   string Text = 17;
   string TimeInForce = 18;
-  Header header = 19;
+  string TransactTime = 19;
+  Header header = 20;
+  Trailer trailer = 21;
 }
 
 message PlaceMessageRequestTyped {
   MessageMetadata metadata = 1;
-  NewOrderSingle message = 2;
+  NewOrderSingle message_typed = 2;
   EventID parent_event_id = 3;
   string description = 4;
 }
 
 message PlaceMessageResponseTyped {
   MessageMetadata metadata = 1;
-  ExecutionReport message_response = 2;
-  RequestStatus status = 3;
-  Checkpoint checkpoint_id = 4;
+  ExecutionReport response_message_typed = 2;
+  EventID parent_event_id = 3;
+  RequestStatus status = 4;
+  Checkpoint checkpoint_id = 5;
 }
