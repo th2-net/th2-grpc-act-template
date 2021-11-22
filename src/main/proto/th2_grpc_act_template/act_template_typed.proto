@@ -120,6 +120,16 @@ message ExecutionReport {
   Trailer trailer = 21;
 }
 
+message BusinessMessageReject {
+  Header header = 1;
+  string RefMsgType = 2;
+  int32 BusinessRejectReason = 3;
+  string BusinessRejectRefID = 4;
+  int32 RefSeqNum = 5;
+  string Text = 6;
+  Trailer trailer = 7;
+}
+
 message PlaceMessageRequestTyped {
   MessageMetadata metadata = 1;
   NewOrderSingle message_typed = 2;
@@ -129,8 +139,11 @@ message PlaceMessageRequestTyped {
 
 message PlaceMessageResponseTyped {
   MessageMetadata metadata = 1;
-  ExecutionReport response_message_typed = 2;
-  EventID parent_event_id = 3;
-  RequestStatus status = 4;
-  Checkpoint checkpoint_id = 5;
+  oneof kind {
+    BusinessMessageReject business_message_reject = 2;
+    ExecutionReport execution_report = 3;
+  }
+  EventID parent_event_id = 4;
+  RequestStatus status = 5;
+  Checkpoint checkpoint_id = 6;
 }
