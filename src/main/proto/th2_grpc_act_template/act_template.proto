@@ -49,6 +49,9 @@ service Act {
 
   rpc placeQuoteResponseFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
+
+  rpc marketdatarequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
+  }
 }
 
 message SendMessageResponse {
