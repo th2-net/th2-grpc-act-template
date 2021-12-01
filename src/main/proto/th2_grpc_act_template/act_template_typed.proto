@@ -95,7 +95,7 @@ message ExecutionReport {
   string OrdType = 3;
   int32 AccountType = 4;
   string OrderCapacity = 5;
-  float ClOrdID = 6;
+  string ClOrdID = 6;
   float OrderQty = 7;
   float LeavesQty = 8;
   string Side = 9;
