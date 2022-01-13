@@ -53,7 +53,7 @@ If you wish to manually create and publish a package for Python:
 
 ### 4.0.0
 
-+ Update to `th2-grpc-common` version `4.0.0-th2-2150-books-pages-1606698156-SNAPSHOT`
++ Update to `th2-grpc-common` version `4.0.0`
 + Marked deprecated fields as `reserved`
 
 ### 3.5.0
