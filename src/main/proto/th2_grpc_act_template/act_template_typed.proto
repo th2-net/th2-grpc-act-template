@@ -121,18 +121,42 @@ message BusinessMessageReject {
   string Text = 6;
 }
 
-message PlaceMessageRequestTyped {
-  MessageMetadata metadata = 1;
-  NewOrderSingle message_typed = 2;
-  EventID parent_event_id = 3;
-  string description = 4;
+message QuoteStatusReport {
+  string QuoteReqID = 1;
+  string Text = 2;
+}
+
+message QuoteAck {
+  string RFQID = 1;
+  string Text = 2;
+}
+
+message OrderMassCancelReport {
+  string ClOrdID = 1;
+  string Text = 2;
+}
+
+message MassQuoteAcknowledgement {
+  string QuoteID = 1;
+  string Text = 2;
 }
 
 message ResponseMessageTyped {
   oneof kind {
     BusinessMessageReject BusinessMessageReject = 1;
     ExecutionReport ExecutionReport = 2;
+    QuoteStatusReport QuoteStatusReport = 3;
+    QuoteAck QuoteAck = 4;
+    OrderMassCancelReport OrderMassCancelReport = 5;
+    MassQuoteAcknowledgement MassQuoteAcknowledgement = 6;
   }
+}
+
+message PlaceMessageRequestTyped {
+  MessageMetadata metadata = 1;
+  NewOrderSingle message_typed = 2;
+  EventID parent_event_id = 3;
+  string description = 4;
 }
 
 message PlaceMessageResponseTyped {
