@@ -141,6 +141,10 @@ message MassQuoteAcknowledgement {
   string Text = 2;
 }
 
+message ErrorMessage {
+  string message = 1;
+}
+
 message ResponseMessageTyped {
   oneof kind {
     BusinessMessageReject BusinessMessageReject = 1;
@@ -149,6 +153,7 @@ message ResponseMessageTyped {
     QuoteAck QuoteAck = 4;
     OrderMassCancelReport OrderMassCancelReport = 5;
     MassQuoteAcknowledgement MassQuoteAcknowledgement = 6;
+    ErrorMessage ErrorMessage = 7;
   }
 }
 
