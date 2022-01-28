@@ -52,6 +52,9 @@ service Act {
 
   rpc placeQuoteResponseFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
+
+  rpc placeSecurityStatusRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
+  }
 }
 
 message SendMessageResponse {
