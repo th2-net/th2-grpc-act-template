@@ -28,7 +28,7 @@ service Act {
       3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
           from Connectivity microservice
       4) Returns the message repose and the Checkpoint */
-  rpc placeOrderFIX (PlaceMessageRequest) returns (PlaceMessageResponseList) {
+  rpc placeOrderFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
 
   /*Send fix message without response awaiting */
@@ -69,8 +69,4 @@ message PlaceMessageResponse {
   Message response_message = 1;
   RequestStatus status = 2;
   Checkpoint checkpoint_id = 3;
-}
-
-message PlaceMessageResponseList {
-  repeated PlaceMessageResponse PlaceMessageResponse = 1;
 }
