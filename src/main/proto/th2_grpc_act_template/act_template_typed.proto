@@ -145,6 +145,12 @@ message ErrorMessage {
   string message = 1;
 }
 
+message RequestMessageTyped {
+  oneof kind {
+    NewOrderSingle NewOrderSingle = 1;
+  }
+}
+
 message ResponseMessageTyped {
   oneof kind {
     BusinessMessageReject BusinessMessageReject = 1;
@@ -159,7 +165,7 @@ message ResponseMessageTyped {
 
 message PlaceMessageRequestTyped {
   MessageMetadata metadata = 1;
-  NewOrderSingle message_typed = 2;
+  RequestMessageTyped message_typed = 2;
   EventID parent_event_id = 3;
   string description = 4;
 }
