@@ -159,7 +159,7 @@ message ResponseMessageTyped {
 
 message PlaceMessageRequestTyped {
   MessageMetadata metadata = 1;
-  NewOrderSingle NewOrderSingle = 2;
+  NewOrderSingle message_typed = 2;
   EventID parent_event_id = 3;
   string description = 4;
 }
