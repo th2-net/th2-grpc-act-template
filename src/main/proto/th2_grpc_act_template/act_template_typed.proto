@@ -53,107 +53,90 @@ service ActTyped {
 }
 
 message NoPartyIDs {
-  string PartyID = 2;
-  string PartyIDSource = 3;
-  int32 PartyRole = 4;
+  string party_id = 2;
+  string party_id_source = 3;
+  int32 party_role = 4;
 }
 
 message TradingParty {
-  repeated NoPartyIDs NoPartyIDs = 1;
+  repeated NoPartyIDs no_party_ids = 1;
 }
 
 message NewOrderSingle {
-  string SecurityID = 1;
-  string SecurityIDSource = 2;
-  string OrdType = 3;
-  int32 AccountType = 4;
-  string OrderCapacity = 5;
-  float OrderQty = 6;
-  float DisplayQty = 7;
-  float Price = 8;
-  string ClOrdID = 9;
-  string SecondaryClOrdID = 10;
-  string Side = 11;
-  string TimeInForce = 12;
-  string TransactTime = 13;
-  TradingParty TradingParty = 14;
-}
-
-message Header {
-  string BeginString = 1;
-  int32 BodyLength = 2;
-  int32 MsgSeqNum = 3;
-  string MsgType = 4;
-  string SenderCompID = 5;
-  string SendingTime = 6;
-  string TargetCompID = 7;
+  string security_id = 1;
+  string security_id_source = 2;
+  string ord_type = 3;
+  int32 account_type = 4;
+  string order_capacity = 5;
+  float order_qty = 6;
+  float display_qty = 7;
+  float price = 8;
+  string cl_ord_id = 9;
+  string secondary_cl_ord_id = 10;
+  string side = 11;
+  string time_in_force = 12;
+  string transact_time = 13;
+  TradingParty trading_party = 14;
 }
 
 message ExecutionReport {
-  string SecurityID = 1;
-  string SecurityIDSource = 2;
-  string OrdType = 3;
-  int32 AccountType = 4;
-  string OrderCapacity = 5;
-  string ClOrdID = 6;
-  float OrderQty = 7;
-  float LeavesQty = 8;
-  string Side = 9;
-  float CumQty = 10;
-  string ExecType = 11;
-  string OrdStatus = 12;
-  TradingParty TradingParty = 13;
-  string ExecID = 14;
-  float Price = 15;
-  string OrderID = 16;
-  string Text = 17;
-  string TimeInForce = 18;
-  string TransactTime = 19;
-  Header header = 20;
+  string security_id = 1;
+  string security_id_source = 2;
+  string ord_type = 3;
+  int32 account_type = 4;
+  string order_capacity = 5;
+  string cl_ord_id = 6;
+  float order_qty = 7;
+  float leaves_qty = 8;
+  string side = 9;
+  float cum_qty = 10;
+  string exec_type = 11;
+  string ord_status = 12;
+  TradingParty trading_party = 13;
+  string exec_id = 14;
+  float price = 15;
+  string order_id = 16;
+  string text = 17;
+  string time_in_force = 18;
+  string transact_time = 19;
 }
 
 message BusinessMessageReject {
-  Header header = 1;
-  string RefMsgType = 2;
-  int32 BusinessRejectReason = 3;
-  string BusinessRejectRefID = 4;
-  int32 RefSeqNum = 5;
-  string Text = 6;
+  string ref_msg_type = 2;
+  int32 business_reject_reason = 3;
+  string business_reject_ref_id = 4;
+  int32 ref_seq_num = 5;
+  string text = 6;
 }
 
 message QuoteStatusReport {
-  string QuoteReqID = 1;
-  string Text = 2;
+  string quote_req_id = 1;
+  string text = 2;
 }
 
 message QuoteAck {
-  string RFQID = 1;
-  string Text = 2;
+  string rfqid = 1;
+  string text = 2;
 }
 
 message OrderMassCancelReport {
-  string ClOrdID = 1;
-  string Text = 2;
+  string cl_ord_id = 1;
+  string text = 2;
 }
 
 message MassQuoteAcknowledgement {
-  string QuoteID = 1;
-  string Text = 2;
-}
-
-message ErrorMessage {
-  string message = 1;
+  string quote_id = 1;
+  string text = 2;
 }
 
 message ResponseMessageTyped {
   oneof kind {
-    BusinessMessageReject BusinessMessageReject = 1;
-    ExecutionReport ExecutionReport = 2;
-    QuoteStatusReport QuoteStatusReport = 3;
-    QuoteAck QuoteAck = 4;
-    OrderMassCancelReport OrderMassCancelReport = 5;
-    MassQuoteAcknowledgement MassQuoteAcknowledgement = 6;
-    ErrorMessage ErrorMessage = 7;
+    BusinessMessageReject business_message_reject = 1;
+    ExecutionReport execution_report = 2;
+    QuoteStatusReport quote_status_report = 3;
+    QuoteAck quote_ack = 4;
+    OrderMassCancelReport order_mass_cancel_report = 5;
+    MassQuoteAcknowledgement mass_quote_acknowledgement = 6;
   }
 }
 
@@ -173,5 +156,5 @@ message PlaceMessageResponseTyped {
 }
 
 message PlaceMessageResponseTypedList {
-  repeated PlaceMessageResponseTyped PlaceMessageResponseTyped = 1;
+  repeated PlaceMessageResponseTyped place_message_response_typed = 1;
 }
