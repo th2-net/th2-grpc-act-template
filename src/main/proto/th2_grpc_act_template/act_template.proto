@@ -38,7 +38,7 @@ service Act {
   rpc placeQuoteRequestFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
 
-  rpc placeQuoteFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+  rpc placeQuoteFIX (PlaceMessageRequest) returns (PlaceMessageMultipleResponse) {
   }
 
   rpc placeOrderMassCancelRequestFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
@@ -48,6 +48,12 @@ service Act {
   }
 
   rpc placeQuoteResponseFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+  }
+
+  rpc placeSecurityListRequestFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+  }
+
+  rpc placeSecurityListRequest (PlaceMessageRequest) returns (PlaceSecurityListResponse) {
   }
 }
 
@@ -70,3 +76,16 @@ message PlaceMessageResponse {
   RequestStatus status = 2;
   Checkpoint checkpoint_id = 3;
 }
+
+message PlaceMessageMultipleResponse {
+  repeated Message response_message = 1;
+  RequestStatus status = 2;
+  Checkpoint checkpoint_id = 3;
+}
+
+message PlaceSecurityListResponse {
+  map<int32, Symbols> securityListDictionary = 1;
+  RequestStatus status = 2;
+  Checkpoint checkpoint_id = 3;
+}
+
