@@ -89,3 +89,6 @@ message PlaceSecurityListResponse {
   Checkpoint checkpoint_id = 3;
 }
 
+message Symbols {
+  repeated string symbol = 1;
+}
