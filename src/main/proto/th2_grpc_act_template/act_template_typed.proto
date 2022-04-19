@@ -29,7 +29,7 @@ service ActTyped {
       3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
           from Connectivity microservice
       4) Returns the message repose and the Checkpoint */
-  rpc placeOrderFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTypedList) {
+  rpc placeOrderFIX (PlaceMessageRequestTyped) returns (PlaceMessageMultipleResponseTyped) {
   }
 
   /*Send fix message without response awaiting */
@@ -39,7 +39,7 @@ service ActTyped {
   rpc placeQuoteRequestFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
   }
 
-  rpc placeQuoteFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
+  rpc placeQuoteFIX (PlaceMessageRequestTyped) returns (PlaceMessageMultipleResponseTyped) {
   }
 
   rpc placeOrderMassCancelRequestFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
@@ -109,6 +109,16 @@ message BusinessMessageReject {
   string text = 6;
 }
 
+message QuoteQualifiers {
+  string quote_qualifiers = 1;
+}
+
+message Quote {
+  string symbol = 1;
+  repeated QuoteQualifiers no_quote_qualifiers = 2;
+  int32 quote_type = 3;
+}
+
 message QuoteStatusReport {
   string quote_req_id = 1;
   string text = 2;
@@ -134,9 +144,10 @@ message ResponseMessageTyped {
     BusinessMessageReject business_message_reject = 1;
     ExecutionReport execution_report = 2;
     QuoteStatusReport quote_status_report = 3;
-    QuoteAck quote_ack = 4;
-    OrderMassCancelReport order_mass_cancel_report = 5;
-    MassQuoteAcknowledgement mass_quote_acknowledgement = 6;
+    Quote quote = 4;
+    QuoteAck quote_ack = 5;
+    OrderMassCancelReport order_mass_cancel_report = 6;
+    MassQuoteAcknowledgement mass_quote_acknowledgement = 7;
   }
 }
 
@@ -155,6 +166,6 @@ message PlaceMessageResponseTyped {
   Checkpoint checkpoint_id = 5;
 }
 
-message PlaceMessageResponseTypedList {
+message PlaceMessageMultipleResponseTyped {
   repeated PlaceMessageResponseTyped place_message_response_typed = 1;
 }
