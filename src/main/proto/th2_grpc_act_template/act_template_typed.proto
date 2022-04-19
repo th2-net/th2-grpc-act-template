@@ -114,9 +114,21 @@ message QuoteQualifiers {
 }
 
 message Quote {
-  string symbol = 1;
-  repeated QuoteQualifiers no_quote_qualifiers = 2;
-  int32 quote_type = 3;
+  message QuoteQualifiers {
+    string quote_qualifiers = 1;
+  }
+
+  repeated QuoteQualifiers no_quote_qualifiers = 1;
+  float offer_px = 2;
+  float offer_size = 3;
+  string quote_id = 4;
+  string symbol = 5;
+  string security_id_source = 6;
+  string bid_size = 7;
+  float bid_px = 8;
+  string security_id = 9;
+  repeated NoPartyIDs no_party_ids = 10;
+  int32 quote_type = 11;
 }
 
 message QuoteStatusReport {
@@ -151,9 +163,16 @@ message ResponseMessageTyped {
   }
 }
 
+message RequestMessageTyped {
+  oneof kind {
+    NewOrderSingle new_order_single = 1;
+    Quote quote = 2;
+  }
+}
+
 message PlaceMessageRequestTyped {
   MessageMetadata metadata = 1;
-  NewOrderSingle message_typed = 2;
+  RequestMessageTyped message_typed = 2;
   EventID parent_event_id = 3;
   string description = 4;
 }
