@@ -109,16 +109,12 @@ message BusinessMessageReject {
   string text = 6;
 }
 
-message QuoteQualifiers {
-  string quote_qualifiers = 1;
-}
-
 message Quote {
-  message QuoteQualifiers {
-    string quote_qualifiers = 1;
+  message QuoteQualifier {
+    string quote_qualifier = 1;
   }
 
-  repeated QuoteQualifiers no_quote_qualifiers = 1;
+  repeated QuoteQualifier no_quote_qualifiers = 1;
   float offer_px = 2;
   float offer_size = 3;
   string quote_id = 4;
