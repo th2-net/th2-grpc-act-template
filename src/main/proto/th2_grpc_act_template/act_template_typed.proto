@@ -53,9 +53,9 @@ service ActTyped {
 }
 
 message NoPartyIDs {
-  string party_id = 2;
-  string party_id_source = 3;
-  int32 party_role = 4;
+  string party_id = 1;
+  string party_id_source = 2;
+  int32 party_role = 3;
 }
 
 message TradingParty {
@@ -79,6 +79,45 @@ message NewOrderSingle {
   TradingParty trading_party = 14;
 }
 
+message Quote {
+  message QuoteQualifier {
+    string quote_qualifier = 1;
+  }
+
+  repeated QuoteQualifier no_quote_qualifiers = 1;
+  float offer_px = 2;
+  float offer_size = 3;
+  string quote_id = 4;
+  string symbol = 5;
+  string security_id_source = 6;
+  string bid_size = 7;
+  float bid_px = 8;
+  string security_id = 9;
+  repeated NoPartyIDs no_party_ids = 10;
+  int32 quote_type = 11;
+}
+
+message SecurityListRequest {
+  int32 SecurityListRequestType = 1;
+  string SecurityReqID = 2;
+}
+
+message RequestMessageTyped {
+  oneof kind {
+    NewOrderSingle new_order_single = 1;
+    Quote quote = 2;
+    SecurityListRequest security_list_request = 3;
+  }
+}
+
+message BusinessMessageReject {
+  string ref_msg_type = 2;
+  int32 business_reject_reason = 3;
+  string business_reject_ref_id = 4;
+  int32 ref_seq_num = 5;
+  string text = 6;
+}
+
 message ExecutionReport {
   string security_id = 1;
   string security_id_source = 2;
@@ -99,32 +138,6 @@ message ExecutionReport {
   string text = 17;
   string time_in_force = 18;
   string transact_time = 19;
-}
-
-message BusinessMessageReject {
-  string ref_msg_type = 2;
-  int32 business_reject_reason = 3;
-  string business_reject_ref_id = 4;
-  int32 ref_seq_num = 5;
-  string text = 6;
-}
-
-message Quote {
-  message QuoteQualifier {
-    string quote_qualifier = 1;
-  }
-
-  repeated QuoteQualifier no_quote_qualifiers = 1;
-  float offer_px = 2;
-  float offer_size = 3;
-  string quote_id = 4;
-  string symbol = 5;
-  string security_id_source = 6;
-  string bid_size = 7;
-  float bid_px = 8;
-  string security_id = 9;
-  repeated NoPartyIDs no_party_ids = 10;
-  int32 quote_type = 11;
 }
 
 message QuoteStatusReport {
@@ -151,6 +164,30 @@ message MassQuoteAcknowledgement {
   string text = 2;
 }
 
+message SecurityList {
+  message NoRelatedSym {
+    string cfi_code = 1;
+    string country_of_issue = 2;
+    string coupon_payment_date = 3;
+    float coupon_rate = 4;
+    string credit_rating = 5;
+    string currency = 6;
+    string issuer = 7;
+    string security_id = 8;
+    string security_id_source = 9;
+    string security_type = 10;
+    string symbol = 11;
+    string trading_session_id = 12;
+  }
+
+  bool last_fragment = 1;
+  repeated NoRelatedSym no_related_sym = 2;
+  string security_req_id = 3;
+  int32 security_request_result = 4;
+  string security_response_id = 5;
+  int32 tot_no_related_sym = 6;
+}
+
 message ResponseMessageTyped {
   oneof kind {
     BusinessMessageReject business_message_reject = 1;
@@ -160,13 +197,7 @@ message ResponseMessageTyped {
     QuoteAck quote_ack = 5;
     OrderMassCancelReport order_mass_cancel_report = 6;
     MassQuoteAcknowledgement mass_quote_acknowledgement = 7;
-  }
-}
-
-message RequestMessageTyped {
-  oneof kind {
-    NewOrderSingle new_order_single = 1;
-    Quote quote = 2;
+    SecurityList security_list = 8;
   }
 }
 
