@@ -50,6 +50,9 @@ service ActTyped {
 
   rpc placeQuoteResponseFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
   }
+
+  rpc placeSecurityListRequest (PlaceMessageRequestTyped) returns (PlaceSecurityListResponse) {
+  }
 }
 
 message NoPartyIDs {
@@ -164,30 +167,6 @@ message MassQuoteAcknowledgement {
   string text = 2;
 }
 
-message SecurityList {
-  message NoRelatedSym {
-    string cfi_code = 1;
-    string country_of_issue = 2;
-    string coupon_payment_date = 3;
-    float coupon_rate = 4;
-    string credit_rating = 5;
-    string currency = 6;
-    string issuer = 7;
-    string security_id = 8;
-    string security_id_source = 9;
-    string security_type = 10;
-    string symbol = 11;
-    string trading_session_id = 12;
-  }
-
-  bool last_fragment = 1;
-  repeated NoRelatedSym no_related_sym = 2;
-  string security_req_id = 3;
-  int32 security_request_result = 4;
-  string security_response_id = 5;
-  int32 tot_no_related_sym = 6;
-}
-
 message ResponseMessageTyped {
   oneof kind {
     BusinessMessageReject business_message_reject = 1;
@@ -197,7 +176,6 @@ message ResponseMessageTyped {
     QuoteAck quote_ack = 5;
     OrderMassCancelReport order_mass_cancel_report = 6;
     MassQuoteAcknowledgement mass_quote_acknowledgement = 7;
-    SecurityList security_list = 8;
   }
 }
 

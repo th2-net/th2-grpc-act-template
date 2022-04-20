@@ -57,6 +57,10 @@ service Act {
   }
 }
 
+message Symbols {
+  repeated string symbol = 1;
+}
+
 message SendMessageResponse {
   RequestStatus status = 1;
   Checkpoint checkpoint_id = 2;
@@ -87,8 +91,4 @@ message PlaceSecurityListResponse {
   map<int32, Symbols> securityListDictionary = 1;
   RequestStatus status = 2;
   Checkpoint checkpoint_id = 3;
-}
-
-message Symbols {
-  repeated string symbol = 1;
 }
