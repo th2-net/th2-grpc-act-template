@@ -29,7 +29,7 @@ service ActTyped {
       3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
           from Connectivity microservice
       4) Returns the message repose and the Checkpoint */
-  rpc placeOrderFIX (PlaceMessageRequestTyped) returns (PlaceMessageMultipleResponseTyped) {
+  rpc placeOrderFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
   }
 
   /*Send fix message without response awaiting */
@@ -101,8 +101,8 @@ message Quote {
 }
 
 message SecurityListRequest {
-  int32 SecurityListRequestType = 1;
-  string SecurityReqID = 2;
+  int32 security_list_request_type = 1;
+  string security_req_id = 2;
 }
 
 message RequestMessageTyped {
