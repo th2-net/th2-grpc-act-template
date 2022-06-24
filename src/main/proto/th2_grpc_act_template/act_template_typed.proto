@@ -80,6 +80,7 @@ message NewOrderSingle {
   string time_in_force = 12;
   string transact_time = 13;
   TradingParty trading_party = 14;
+  string symbol = 15;
 }
 
 message Quote {
@@ -121,6 +122,16 @@ message BusinessMessageReject {
   string text = 6;
 }
 
+message Header {
+  string begin_string = 1;
+  string sender_comp_id = 2;
+  string sending_time = 3;
+  int32 msg_seq_num = 4;
+  int32 body_length = 5;
+  string msg_type = 6;
+  string target_comp_id = 7;
+}
+
 message ExecutionReport {
   string security_id = 1;
   string security_id_source = 2;
@@ -141,6 +152,8 @@ message ExecutionReport {
   string text = 17;
   string time_in_force = 18;
   string transact_time = 19;
+  Header header = 20;
+  float last_px = 21;
 }
 
 message QuoteStatusReport {
