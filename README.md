@@ -56,6 +56,23 @@ If you wish to manually create and publish a package for Python:
 + Update to `th2-grpc-common` version `4.0.0`
 + Marked deprecated fields as `reserved`
 
+### 3.9.0
+
++ Update to `th2-grpc-common` version `3.11.1`
+
+
+### 3.8.0
+
++ Update to `th2-grpc-common` version `3.9.0`
+
+### 3.7.0
+
++ Add new method for sending `SecurityStatusRequest`
+
+### 3.6.0
+
++ Add new method for sending `OrderCancelRequest` 
+
 ### 3.5.0
 
 + Update to `th2-grpc-common` version `3.8.0`
