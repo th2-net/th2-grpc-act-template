@@ -55,32 +55,13 @@ service ActTyped {
   }
 }
 
-message NoPartyIDs {
-  string party_id = 1;
-  string party_id_source = 2;
-  int32 party_role = 3;
-}
-
-message TradingParty {
-  repeated NoPartyIDs no_party_ids = 1;
-}
-
 message NewOrderSingle {
-  string security_id = 1;
-  string security_id_source = 2;
-  string ord_type = 3;
-  int32 account_type = 4;
-  string order_capacity = 5;
-  float order_qty = 6;
-  float display_qty = 7;
-  float price = 8;
-  string cl_ord_id = 9;
-  string secondary_cl_ord_id = 10;
-  string side = 11;
-  string time_in_force = 12;
-  string transact_time = 13;
-  TradingParty trading_party = 14;
-  string symbol = 15;
+  float price = 1;
+  float order_qty = 2;
+  string side = 3;
+  string time_in_force = 4;
+  string user_id = 5;
+  string instrument = 6;
 }
 
 message Quote {
@@ -97,7 +78,7 @@ message Quote {
   string bid_size = 7;
   float bid_px = 8;
   string security_id = 9;
-  repeated NoPartyIDs no_party_ids = 10;
+//  repeated NoPartyIDs no_party_ids = 10;
   int32 quote_type = 11;
 }
 
@@ -145,7 +126,7 @@ message ExecutionReport {
   float cum_qty = 10;
   string exec_type = 11;
   string ord_status = 12;
-  TradingParty trading_party = 13;
+//  TradingParty trading_party = 13;
   string exec_id = 14;
   float price = 15;
   string order_id = 16;
