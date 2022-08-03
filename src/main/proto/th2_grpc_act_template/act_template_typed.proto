@@ -29,7 +29,7 @@ service ActTyped {
       3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
           from Connectivity microservice
       4) Returns the message repose and the Checkpoint */
-  rpc placeOrderFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
+  rpc placeOrderFIX (PlaceMessageRequestTyped) returns (Checkpoint) {
   }
 
   /*Send fix message without response awaiting */
@@ -39,7 +39,7 @@ service ActTyped {
   rpc placeQuoteRequestFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
   }
 
-  rpc placeQuoteFIX (PlaceMessageRequestTyped) returns (PlaceMessageMultipleResponseTyped) {
+  rpc placeQuoteFIX (PlaceMessageRequestTyped) returns (PlaceMessageMultiResponseTyped) {
   }
 
   rpc placeOrderMassCancelRequestFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
@@ -55,13 +55,32 @@ service ActTyped {
   }
 }
 
+message NoPartyIDs {
+  string party_id = 1;
+  string party_id_source = 2;
+  int32 party_role = 3;
+}
+
+message TradingParty {
+  repeated NoPartyIDs no_party_ids = 1;
+}
+
 message NewOrderSingle {
-  float price = 1;
-  float order_qty = 2;
-  string side = 3;
-  string time_in_force = 4;
-  string user_id = 5;
-  string instrument = 6;
+  string security_id = 1;
+  string security_id_source = 2;
+  string ord_type = 3;
+  int32 account_type = 4;
+  string order_capacity = 5;
+  float order_qty = 6;
+  float display_qty = 7;
+  float price = 8;
+  string cl_ord_id = 9;
+  string secondary_cl_ord_id = 10;
+  string side = 11;
+  string time_in_force = 12;
+  string transact_time = 13;
+  TradingParty trading_party = 14;
+  string symbol = 15;
 }
 
 message Quote {
@@ -78,7 +97,7 @@ message Quote {
   string bid_size = 7;
   float bid_px = 8;
   string security_id = 9;
-//  repeated NoPartyIDs no_party_ids = 10;
+  repeated NoPartyIDs no_party_ids = 10;
   int32 quote_type = 11;
 }
 
@@ -95,13 +114,6 @@ message RequestMessageTyped {
   }
 }
 
-message BusinessMessageReject {
-  string ref_msg_type = 2;
-  int32 business_reject_reason = 3;
-  string business_reject_ref_id = 4;
-  int32 ref_seq_num = 5;
-  string text = 6;
-}
 
 message Header {
   string begin_string = 1;
@@ -111,30 +123,6 @@ message Header {
   int32 body_length = 5;
   string msg_type = 6;
   string target_comp_id = 7;
-}
-
-message ExecutionReport {
-  string security_id = 1;
-  string security_id_source = 2;
-  string ord_type = 3;
-  int32 account_type = 4;
-  string order_capacity = 5;
-  string cl_ord_id = 6;
-  float order_qty = 7;
-  float leaves_qty = 8;
-  string side = 9;
-  float cum_qty = 10;
-  string exec_type = 11;
-  string ord_status = 12;
-//  TradingParty trading_party = 13;
-  string exec_id = 14;
-  float price = 15;
-  string order_id = 16;
-  string text = 17;
-  string time_in_force = 18;
-  string transact_time = 19;
-  Header header = 20;
-  float last_px = 21;
 }
 
 message QuoteStatusReport {
@@ -163,8 +151,6 @@ message MassQuoteAcknowledgement {
 
 message ResponseMessageTyped {
   oneof kind {
-    BusinessMessageReject business_message_reject = 1;
-    ExecutionReport execution_report = 2;
     QuoteStatusReport quote_status_report = 3;
     Quote quote = 4;
     QuoteAck quote_ack = 5;
@@ -182,12 +168,11 @@ message PlaceMessageRequestTyped {
 
 message PlaceMessageResponseTyped {
   MessageMetadata metadata = 1;
-  ResponseMessageTyped response_message_typed = 2;
-  EventID parent_event_id = 3;
+  ResponseMessageTyped response_message = 2;
   RequestStatus status = 4;
   Checkpoint checkpoint_id = 5;
 }
 
-message PlaceMessageMultipleResponseTyped {
+message PlaceMessageMultiResponseTyped {
   repeated PlaceMessageResponseTyped place_message_response_typed = 1;
 }
