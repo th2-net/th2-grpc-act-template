@@ -99,6 +99,7 @@ message Quote {
   string security_id = 9;
   repeated NoPartyIDs no_party_ids = 10;
   int32 quote_type = 11;
+  int32 account_type = 12;
 }
 
 message SecurityListRequest {
@@ -123,6 +124,30 @@ message Header {
   int32 body_length = 5;
   string msg_type = 6;
   string target_comp_id = 7;
+}
+
+message ExecutionReport {
+  string security_id = 1;
+  string security_id_source = 2;
+  string ord_type = 3;
+  int32 account_type = 4;
+  string order_capacity = 5;
+  string cl_ord_id = 6;
+  float order_qty = 7;
+  float leaves_qty = 8;
+  string side = 9;
+  float cum_qty = 10;
+  string exec_type = 11;
+  string ord_status = 12;
+  TradingParty trading_party = 13;
+  string exec_id = 14;
+  float price = 15;
+  string order_id = 16;
+  string text = 17;
+  string time_in_force = 18;
+  string transact_time = 19;
+  Header header = 20;
+  float last_px = 21;
 }
 
 message QuoteStatusReport {
@@ -151,6 +176,7 @@ message MassQuoteAcknowledgement {
 
 message ResponseMessageTyped {
   oneof kind {
+    ExecutionReport execution_report = 1;
     QuoteStatusReport quote_status_report = 3;
     Quote quote = 4;
     QuoteAck quote_ack = 5;
