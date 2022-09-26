@@ -5,7 +5,7 @@ ARG nexus_user
 ARG nexus_password
 
 COPY ./ .
-RUN ./gradlew clean build publish \
+RUN gradle clean build publish \
     -Pnexus_url=${nexus_url} \
     -Pnexus_user=${nexus_user} \
     -Pnexus_password=${nexus_password}

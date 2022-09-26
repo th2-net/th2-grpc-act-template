@@ -29,176 +29,30 @@ service ActTyped {
       3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
           from Connectivity microservice
       4) Returns the message repose and the Checkpoint */
-  rpc placeOrderFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
-  }
-
-  /*Send fix message without response awaiting */
-  rpc sendMessage (PlaceMessageRequestTyped) returns (SendMessageResponse) {
-  }
-
-  rpc placeQuoteRequestFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
-  }
-
-  rpc placeQuoteFIX (PlaceMessageRequestTyped) returns (PlaceMessageMultiResponseTyped) {
-  }
-
-  rpc placeOrderMassCancelRequestFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
-  }
-
-  rpc placeQuoteCancelFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
-  }
-
-  rpc placeQuoteResponseFIX (PlaceMessageRequestTyped) returns (PlaceMessageResponseTyped) {
-  }
-
-  rpc placeSecurityListRequest (PlaceMessageRequestTyped) returns (PlaceSecurityListResponse) {
+  rpc placeOrderFIX (PlaceOrderRequest) returns (PlaceOrderResponse) {
   }
 }
 
-message NoPartyIDs {
-  string party_id = 1;
-  string party_id_source = 2;
-  int32 party_role = 3;
+message PlaceOrderRequest {
+  ConnectionID connection = 1;
+  string symbol = 2;
+  string ord_type = 3;
+  float order_qty = 4; // might be a problem with some values...
+  float price = 5;  // might be a problem with some values...
+  string side = 6;
+
+  optional string cl_ord_id = 7; // optional, will be generated automatically
+  optional string time_in_force = 8; // optional, will be 0 by default
+  TradingParty trading_party = 9; // optional, will be taken from act config by session alias
 }
 
 message TradingParty {
-  repeated NoPartyIDs no_party_ids = 1;
+  string id = 1;
+  string source = 2;
+  uint32 role = 3;
 }
 
-message NewOrderSingle {
-  string security_id = 1;
-  string security_id_source = 2;
-  string ord_type = 3;
-  int32 account_type = 4;
-  string order_capacity = 5;
-  float order_qty = 6;
-  float display_qty = 7;
-  float price = 8;
-  string cl_ord_id = 9;
-  string secondary_cl_ord_id = 10;
-  string side = 11;
-  string time_in_force = 12;
-  string transact_time = 13;
-  TradingParty trading_party = 14;
-  string symbol = 15;
-}
-
-message Quote {
-  message QuoteQualifier {
-    string quote_qualifier = 1;
-  }
-
-  repeated QuoteQualifier no_quote_qualifiers = 1;
-  float offer_px = 2;
-  float offer_size = 3;
-  string quote_id = 4;
-  string symbol = 5;
-  string security_id_source = 6;
-  string bid_size = 7;
-  float bid_px = 8;
-  string security_id = 9;
-  repeated NoPartyIDs no_party_ids = 10;
-  int32 quote_type = 11;
-  int32 account_type = 12;
-}
-
-message SecurityListRequest {
-  int32 security_list_request_type = 1;
-  string security_req_id = 2;
-}
-
-message RequestMessageTyped {
-  oneof kind {
-    NewOrderSingle new_order_single = 1;
-    Quote quote = 2;
-    SecurityListRequest security_list_request = 3;
-  }
-}
-
-
-message Header {
-  string begin_string = 1;
-  string sender_comp_id = 2;
-  string sending_time = 3;
-  int32 msg_seq_num = 4;
-  int32 body_length = 5;
-  string msg_type = 6;
-  string target_comp_id = 7;
-}
-
-message ExecutionReport {
-  string security_id = 1;
-  string security_id_source = 2;
-  string ord_type = 3;
-  int32 account_type = 4;
-  string order_capacity = 5;
-  string cl_ord_id = 6;
-  float order_qty = 7;
-  float leaves_qty = 8;
-  string side = 9;
-  float cum_qty = 10;
-  string exec_type = 11;
-  string ord_status = 12;
-  TradingParty trading_party = 13;
-  string exec_id = 14;
-  float price = 15;
-  string order_id = 16;
-  string text = 17;
-  string time_in_force = 18;
-  string transact_time = 19;
-  Header header = 20;
-  float last_px = 21;
-}
-
-message QuoteStatusReport {
-  string quote_id = 1;
-  int32 quote_status = 2;
-  string security_id = 3;
-  string security_id_source = 4;
-  string symbol = 5;
-  string text = 6;
-}
-
-message QuoteAck {
-  string rfqid = 1;
-  string text = 2;
-}
-
-message OrderMassCancelReport {
-  string cl_ord_id = 1;
-  string text = 2;
-}
-
-message MassQuoteAcknowledgement {
-  string quote_id = 1;
-  string text = 2;
-}
-
-message ResponseMessageTyped {
-  oneof kind {
-    ExecutionReport execution_report = 1;
-    QuoteStatusReport quote_status_report = 3;
-    Quote quote = 4;
-    QuoteAck quote_ack = 5;
-    OrderMassCancelReport order_mass_cancel_report = 6;
-    MassQuoteAcknowledgement mass_quote_acknowledgement = 7;
-  }
-}
-
-message PlaceMessageRequestTyped {
-  MessageMetadata metadata = 1;
-  RequestMessageTyped message_typed = 2;
-  EventID parent_event_id = 3;
-  string description = 4;
-}
-
-message PlaceMessageResponseTyped {
-  MessageMetadata metadata = 1;
-  ResponseMessageTyped response_message = 2;
-  RequestStatus status = 4;
-  Checkpoint checkpoint_id = 5;
-}
-
-message PlaceMessageMultiResponseTyped {
-  repeated PlaceMessageResponseTyped place_message_response_typed = 1;
+message PlaceOrderResponse {
+  Checkpoint checkpoint = 1;
+  Message response = 2;
 }

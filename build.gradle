@@ -15,8 +15,8 @@ targetCompatibility = 11
 
 ext {
     grpcVersion                 = '1.38.1'
-    protobufVersion             = '3.18.0'
-    serviceGeneratorVersion     = '3.2.1'
+    protobufVersion             = '3.21.6'
+    serviceGeneratorVersion     = '3.2.3-optional-support-3129430762-SNAPSHOT'
 
     genDir              = file("${project.rootDir}/src/gen")
     sharedDir           = file("${project.rootDir}/shared")
@@ -32,6 +32,7 @@ repositories {
             name 'Sonatype_releases'
             url 'https://s01.oss.sonatype.org/content/repositories/releases/'
     }
+    mavenLocal()
 
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
