@@ -39,11 +39,17 @@ message PlaceOrderRequest {
   string ord_type = 3;
   float order_qty = 4; // might be a problem with some values...
   float price = 5;  // might be a problem with some values...
-  string side = 6;
+  Side side = 6;
 
   optional string cl_ord_id = 7; // optional, will be generated automatically
   optional string time_in_force = 8; // optional, will be 0 by default
   TradingParty trading_party = 9; // optional, will be taken from act config by session alias
+}
+
+enum Side {
+  SIDE_UNSPECIFIED = 0;
+  SIDE_BUY = 1;
+  SIDE_SELL = 2;
 }
 
 message TradingParty {
