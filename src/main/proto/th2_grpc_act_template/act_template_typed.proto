@@ -38,7 +38,7 @@ message PlaceOrderRequest {
 
   optional string cl_ord_id = 7; // optional, will be generated automatically
   optional string time_in_force = 8; // optional, will be 0 by default
-  TradingParty trading_party = 9; // optional, will be taken from act config by session alias
+  repeated TradingParty trading_party = 9; // optional, will be taken from act config by session alias
 
   EventID parent_event_id = 10;
 }
