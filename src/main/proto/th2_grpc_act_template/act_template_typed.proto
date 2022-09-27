@@ -16,20 +16,15 @@
 
 syntax = "proto3";
 
+package th2.act.template;
+
 import "th2_grpc_common/common.proto";
-import "th2_grpc_act_template/act_template.proto";
 
 option java_multiple_files = true;
-option java_package = "com.exactpro.th2.act.grpc";
+option java_package = "com.exactpro.th2.act.template.grpc";
 
 service ActTyped {
-  /* This action executes next steps:
-      1) Registers checkpoint in Verifier microservice
-      2) Sends passed message as is to Connectivity microservice
-      3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
-          from Connectivity microservice
-      4) Returns the message repose and the Checkpoint */
-  rpc placeOrderFIX (PlaceOrderRequest) returns (PlaceOrderResponse) {
+  rpc PlaceOrderFix(PlaceOrderRequest) returns (PlaceOrderResponse) {
   }
 }
 
