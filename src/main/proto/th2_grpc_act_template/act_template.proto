@@ -22,57 +22,65 @@ option java_multiple_files = true;
 option java_package = "com.exactpro.th2.act.grpc";
 
 service Act {
-  /* This action executes next steps:
-      1) Registers checkpoint in Verifier microservice
-      2) Sends passed message as is to Connectivity microservice
-      3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
-          from Connectivity microservice
-      4) Returns the message repose and the Checkpoint */
-  rpc placeOrderFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    /* This action executes next steps:
+        1) Registers checkpoint in Verifier microservice
+        2) Sends passed message as is to Connectivity microservice
+        3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
+            from Connectivity microservice
+        4) Returns the message repose and the Checkpoint */
+    rpc placeOrderFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
 
-  rpc placeCancelFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    rpc placeCancelFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
 
-  /*Send fix message without response awaiting */
-  rpc sendMessage (PlaceMessageRequest) returns (SendMessageResponse) {
-  }
+    /*Send fix message without response awaiting */
+    rpc sendMessage (PlaceMessageRequest) returns (SendMessageResponse) {
+    }
 
-  rpc placeQuoteRequestFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    rpc placeQuoteRequestFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
 
-  rpc placeQuoteFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    rpc placeQuoteFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
 
-  rpc placeOrderMassCancelRequestFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    rpc placeOrderMassCancelRequestFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
 
-  rpc placeQuoteCancelFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    rpc placeQuoteCancelFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
 
-  rpc placeQuoteResponseFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    rpc placeQuoteResponseFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
 
-  rpc placeSecurityStatusRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
-  }
+    rpc placeSecurityStatusRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
+    rpc multiSendMessage (MultiSendRequest) returns (SendMessageResponse) {
+    }
 }
 
 message SendMessageResponse {
-  RequestStatus status = 1;
-  Checkpoint checkpoint_id = 2;
+    RequestStatus status = 1;
+    Checkpoint checkpoint_id = 2;
 }
 
 message PlaceMessageRequest {
-  Message message = 1;
-  /* Please set connection_id into message. Act transfer this value into message
-   * automatically if message hasn't connectivityID for backward compatibility */
-  ConnectionID connection_id = 2[deprecated = true];
-  EventID parent_event_id = 4;
-  string description = 5;
+    Message message = 1;
+    /* Please set connection_id into message. Act transfer this value into message
+     * automatically if message hasn't connectivityID for backward compatibility */
+    ConnectionID connection_id = 2 [deprecated = true];
+    EventID parent_event_id = 4;
+    string description = 5;
 }
 
 message PlaceMessageResponse {
-  Message response_message = 1;
-  RequestStatus status = 2;
-  Checkpoint checkpoint_id = 3;
+    Message response_message = 1;
+    RequestStatus status = 2;
+    Checkpoint checkpoint_id = 3;
+}
+
+message MultiSendRequest {
+    repeated Message messages = 1;
+    EventID parent_event_id = 2;
+    string description = 3;
 }
