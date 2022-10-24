@@ -83,4 +83,5 @@ message MultiSendRequest {
     repeated Message messages = 1;
     EventID parent_event_id = 2;
     string description = 3;
+    bool skip_order = 4;
 }
