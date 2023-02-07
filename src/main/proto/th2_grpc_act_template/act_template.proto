@@ -31,7 +31,10 @@ service Act {
     rpc placeOrderFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
     }
 
-    rpc placeCancelFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    rpc placeOrderCancelRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
+    }
+
+    rpc placeOrderCancelReplaceRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
     }
 
     /*Send fix message without response awaiting */
