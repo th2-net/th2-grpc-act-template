@@ -1,4 +1,4 @@
-# th2 gRPC act template library (3.11.0)
+# th2 gRPC act template library (3.12.0)
 
 This is the template project for creating custom gRPC act libraries. It contains proto messages and `Act` service that are used [th2 act template](https://github.com/th2-net/th2-act-template-j "th2-act-template-j"). See [act_template.proto](src/main/proto/th2_grpc_act_template/act_template.proto "act_template.proto") file for details. <br>
 Tool generates code from `.proto` files and uploads built packages (`.proto` files and generated code) to specified repositories.
@@ -50,6 +50,13 @@ If you wish to manually create and publish a package for Python:
    `PYPI_REPOSITORY_URL`, `PYPI_USER` and `PYPI_PASSWORD` are parameters for publishing.
 
 ## Release notes
+
+### 3.12.0
++ grpc version bump to `1.48.2`
++ protobuf version bump to `3.21.7`
++ serviceGenerator version bump to `3.3.1`
++ Add dependency check pipeline step.
++ Add dev-release workflow.
 
 ### 3.11.0
 
