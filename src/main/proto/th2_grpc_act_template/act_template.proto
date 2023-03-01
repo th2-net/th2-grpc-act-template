@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 Exactpro (Exactpro Systems Limited)
+ * Copyright 2020-2023 Exactpro (Exactpro Systems Limited)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ option java_package = "com.exactpro.th2.act.grpc";
 
 service Act {
   /* This action executes next steps:
-      1) Registers checkpoint in Verifier microservice
-      2) Sends passed message as is to Connectivity microservice
-      3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
-          from Connectivity microservice
-      4) Returns the message repose and the Checkpoint */
+     1) Registers checkpoint in Verifier microservice
+     2) Sends passed message as is to Connectivity microservice
+     3) Waits Execution Report or Business Message Reject with the same ClOrdID as in passed message
+        from Connectivity microservice
+     4) Returns the message repose and the Checkpoint */
   rpc placeOrderFIX (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
 
@@ -58,6 +58,9 @@ service Act {
 
   rpc placeSecurityStatusRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
+
+  rpc multiSendMessage (MultiSendRequest) returns (SendMessageResponse) {
+  }
 }
 
 message SendMessageResponse {
@@ -76,4 +79,11 @@ message PlaceMessageResponse {
   Message response_message = 1;
   RequestStatus status = 2;
   Checkpoint checkpoint_id = 3;
+}
+
+message MultiSendRequest {
+  repeated Message messages = 1;
+  EventID parent_event_id = 2;
+  string description = 3;
+  bool skip_order = 4;
 }

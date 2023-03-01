@@ -56,9 +56,20 @@ If you wish to manually create and publish a package for Python:
 + Update to `th2-grpc-common` version `4.0.0`
 + Marked deprecated fields as `reserved`
 
+### 3.12.0
++ grpc version bump to `1.48.2`
++ protobuf version bump to `3.21.7`
++ serviceGenerator version bump to `3.3.1`
++ Add dependency check pipeline step.
++ Add dev-release workflow.
+
+### 3.11.0
+
++ Add `multiSendMessage` method for sending several messages at once
+
 ### 3.10.0
 
-+ Add new method for sending `OrderCancelReplaceRequest`
++ Add `placeOrderCancelReplaceRequest` method for sending `OrderCancelReplaceRequest`
 + Rename `placeCancelFIX` to `placeOrderCancelRequest` 
 
 ### 3.9.0
