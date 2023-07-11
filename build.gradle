@@ -55,6 +55,14 @@ dependencies {
     api "com.exactpro.th2:grpc-service-generator:${serviceGeneratorVersion}"
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs 'src/gen/main/services/java/resources'
+        }
+    }
+}
+
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:${protobufVersion}"
@@ -67,7 +75,6 @@ protobuf {
             artifact = "com.exactpro.th2:grpc-service-generator:${serviceGeneratorVersion}:all@jar"
         }
     }
-    generateProtoTasks.generatedFilesBaseDir = genDir
     generateProtoTasks {
         all()*.plugins {
             grpc {}
@@ -106,15 +113,6 @@ tasks.withType(Sign).configureEach {
         project.hasProperty('signingKey') &&
                 project.hasProperty('signingPassword')
     }
-}
-
-// FIXME: related issue https://github.com/gradle/gradle/issues/17236
-// Also, the problem can be related to source set imports
-tasks.withType(Jar).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-tasks.withType(Copy).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 // disable running task 'initializeSonatypeStagingRepository' on a gitlab
