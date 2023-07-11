@@ -1,4 +1,4 @@
-FROM gradle:6.8.2-jdk11 as java_generator
+FROM gradle:7.6-jdk11 as java_generator
 WORKDIR /home/project
 ARG nexus_url
 ARG nexus_user

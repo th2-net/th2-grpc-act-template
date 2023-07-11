@@ -12,5 +12,5 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-th2-grpc-common>=4.2.0,<5
-mypy-protobuf==3.2
+th2-grpc-common==4.3.0.dev5378777004
+mypy-protobuf==3.4
