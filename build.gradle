@@ -40,8 +40,8 @@ repositories {
 }
 
 dependencies {
-    api platform('com.exactpro.th2:bom:4.4.0-update-libs-5345334944-c71fdc9-SNAPSHOT')
-    api 'com.exactpro.th2:grpc-common:4.3.0-TH2-4887-vulnerabilities-5374522292-1f54a29-SNAPSHOT'
+    api platform('com.exactpro.th2:bom:4.4.0')
+    api 'com.exactpro.th2:grpc-common:4.3.0-TH2-4887-vulnerabilities-+'
 
     api "com.google.protobuf:protobuf-java-util"
     api "io.grpc:grpc-stub"
