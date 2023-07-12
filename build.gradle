@@ -19,7 +19,7 @@ ext {
     protobufVersion = '3.23.2' // The protoc:3.23.3 https://github.com/protocolbuffers/protobuf/issues/13070
     serviceGeneratorVersion = '3.4.0-TH2-4887-vulnerabilities-5346040251-1bed6cd-SNAPSHOT'
 
-    genDir = file("${project.rootDir}/src/gen")
+    genBaseDir = file("${buildDir}/generated/source/proto") // from protobuf plugin
 }
 
 repositories {
@@ -56,8 +56,9 @@ dependencies {
 
 sourceSets {
     main {
+        // the proto plugins add generated dir to source sets
         resources {
-            srcDirs 'src/gen/main/services/java/resources'
+            srcDirs "$genBaseDir/main/services/java/resources"
         }
     }
 }
@@ -181,10 +182,6 @@ signing {
     String signingPassword = findProperty("signingPassword")
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
-}
-
-clean {
-    delete genDir
 }
 
 dependencyLocking {
