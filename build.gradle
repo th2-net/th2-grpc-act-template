@@ -6,6 +6,7 @@ plugins {
     id 'signing'
     id "com.google.protobuf" version "0.9.3"
     id "org.owasp.dependencycheck" version "8.2.1"
+    id "com.gorylenko.gradle-git-properties" version "2.4.1"
 }
 
 group = 'com.exactpro.th2'
