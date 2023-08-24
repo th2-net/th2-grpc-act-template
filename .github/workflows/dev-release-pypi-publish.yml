@@ -14,7 +14,7 @@ jobs:
     needs: [collect-version]
     uses: th2-net/.github/.github/workflows/compaund-python-grpc-pypi-publication.yml@main
     with:
-      custom-version: ${{ needs.collect-version.outputs.versionNumber }}-dev
+      custom-version: ${{ needs.collect-version.outputs.versionNumber }}rc1
     secrets:
       pypi_password: ${{ secrets.PYPI_PASSWORD }}
   scan:
