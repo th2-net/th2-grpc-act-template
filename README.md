@@ -1,4 +1,4 @@
-# th2 gRPC act template library (4.0.1)
+# th2 gRPC act template library (4.1.0)
 
 This is the template project for creating custom gRPC act libraries. It contains proto messages and `Act` service that
 are used [th2 act template](https://github.com/th2-net/th2-act-template-j "th2-act-template-j").
@@ -68,7 +68,7 @@ If you wish to manually create and publish a package for Python:
 
 ### 4.1.0
 
-+ Update to `th2-grpc-common` version `4.2.0`
++ Update to `th2-grpc-common` version `4.3.0`
 + Update to `th2-bom` version `4.4.0`
 + Update to `th2-grpc-service-genrator` version `3.4.0`
 
