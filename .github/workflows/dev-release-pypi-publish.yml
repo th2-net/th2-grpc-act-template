@@ -1,12 +1,9 @@
-name: Dev build and publish Python distributions to PyPI. New gRPC generator
+name: Dev release and publish Python distributions to PyPI
 
 on:
   push:
-    branches-ignore:
-      - master
-      - version-*
-    paths-ignore:
-      - README.md
+    tags:
+      - \d+.\d+.\d+-dev
 
 jobs:
   collect-version:
@@ -17,7 +14,7 @@ jobs:
     needs: [collect-version]
     uses: th2-net/.github/.github/workflows/compaund-python-grpc-pypi-publication.yml@main
     with:
-      custom-version: ${{ needs.collect-version.outputs.versionNumber }}.dev${{ github.run_id }}
+      custom-version: ${{ needs.collect-version.outputs.versionNumber }}rc1
     secrets:
       pypi_password: ${{ secrets.PYPI_PASSWORD }}
   scan:
