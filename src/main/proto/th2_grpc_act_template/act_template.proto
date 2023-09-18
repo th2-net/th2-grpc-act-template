@@ -37,6 +37,8 @@ service Act {
   rpc placeOrderCancelReplaceRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
 
+  rpc sendRawMessage(SendRawMessageRequest) returns (SendRawMessageResponse) {}
+
   /*Send fix message without response awaiting */
   rpc sendMessage (PlaceMessageRequest) returns (SendMessageResponse) {
   }
@@ -61,6 +63,16 @@ service Act {
 
   rpc multiSendMessage (MultiSendRequest) returns (SendMessageResponse) {
   }
+}
+
+message SendRawMessageRequest {
+  RawMessage raw = 1;
+  EventID parent_event_id = 4;
+}
+
+message SendRawMessageResponse {
+  RequestStatus status = 1;
+  Checkpoint checkpoint_id = 2;
 }
 
 message SendMessageResponse {
