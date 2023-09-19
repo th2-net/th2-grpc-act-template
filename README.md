@@ -1,4 +1,4 @@
-# th2 gRPC act template library (4.1.1)
+# th2 gRPC act template library (4.2.0)
 
 This is the template project for creating custom gRPC act libraries. It contains proto messages and `Act` service that
 are used [th2 act template](https://github.com/th2-net/th2-act-template-j "th2-act-template-j").
