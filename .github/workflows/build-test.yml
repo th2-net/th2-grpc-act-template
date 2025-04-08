@@ -9,7 +9,7 @@ on:
       - README.md
 
 jobs:
-  get:
+  get-python:
     uses: th2-net/.github/.github/workflows/python-prepare-version.yml@compound-grpc # FIXME: revert to main
 #  build:
 #    uses: th2-net/.github/.github/workflows/compound-grpc.yml@compound-grpc # FIXME: revert to main
