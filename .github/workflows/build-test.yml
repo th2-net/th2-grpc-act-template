@@ -9,11 +9,9 @@ on:
       - README.md
 
 jobs:
-  get-python:
-    uses: th2-net/.github/.github/workflows/python-prepare-version.yml@compound-grpc # FIXME: revert to main
-#  get-java:
-#    uses: th2-net/.github/.github/workflows/java-prepare-version.yml@compound-grpc # FIXME: revert to main
-#  build:
-#    uses: th2-net/.github/.github/workflows/compound-grpc.yml@compound-grpc # FIXME: revert to main
-#    with:
-#      build-mode: snapshot
+  get-java:
+    uses: th2-net/.github/.github/workflows/java-prepare-version.yml@compound-grpc # FIXME: revert to main
+  build:
+    uses: th2-net/.github/.github/workflows/compound-grpc.yml@compound-grpc # FIXME: revert to main
+    with:
+      build-mode: snapshot
