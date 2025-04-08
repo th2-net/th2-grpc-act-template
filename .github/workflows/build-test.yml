@@ -9,7 +9,9 @@ on:
       - README.md
 
 jobs:
-  build:
-    uses: th2-net/.github/.github/workflows/compound-grpc.yml@compound-grpc # FIXME: revert to main
-    with:
-      build-mode: snapshot
+  get:
+    uses: th2-net/.github/.github/workflows/python-get-version.yml@compound-grpc # FIXME: revert to main
+#  build:
+#    uses: th2-net/.github/.github/workflows/compound-grpc.yml@compound-grpc # FIXME: revert to main
+#    with:
+#      build-mode: snapshot
