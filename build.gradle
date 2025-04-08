@@ -1,39 +1,15 @@
-import com.github.jk1.license.filter.LicenseBundleNormalizer
-import com.github.jk1.license.render.JsonReportRenderer
-
 plugins {
-    id 'java'
     id 'java-library'
     id 'maven-publish'
-    id "io.github.gradle-nexus.publish-plugin" version "1.3.0"
-    id 'signing'
-    id "com.google.protobuf" version "0.9.3"
-    id "org.owasp.dependencycheck" version "8.3.1"
-    id "com.gorylenko.gradle-git-properties" version "2.4.1"
-    id 'com.github.jk1.dependency-license-report' version '2.5'
-    id "de.undercouch.download" version "5.4.0"
+    id 'com.exactpro.th2.gradle.grpc' version '0.2.4'
+    id 'com.exactpro.th2.gradle.publish' version '0.2.4'
 }
 
 group = 'com.exactpro.th2'
 version = release_version
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
-ext {
-    grpcVersion = '1.56.0'
-    protobufVersion = '3.23.2' // The protoc:3.23.3 https://github.com/protocolbuffers/protobuf/issues/13070
-    serviceGeneratorVersion = '3.4.0'
-
-    genBaseDir = file("${buildDir}/generated/source/proto") // from protobuf plugin
-}
-
 repositories {
     mavenCentral()
-    maven {
-        name 'Sonatype_snapshots'
-        url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-    }
     maven {
         name 'Sonatype_releases'
         url 'https://s01.oss.sonatype.org/content/repositories/releases/'
@@ -45,184 +21,10 @@ repositories {
     }
 }
 
+th2Grpc {
+    service.set(true)
+}
+
 dependencies {
-    api platform('com.exactpro.th2:bom:4.4.0')
-    api 'com.exactpro.th2:grpc-common:4.3.0-dev'
-
-    api "com.google.protobuf:protobuf-java-util"
-    api "io.grpc:grpc-stub"
-    implementation "io.grpc:grpc-protobuf"
-    implementation "io.grpc:grpc-core"
-    implementation "io.grpc:grpc-netty"
-
-    implementation "javax.annotation:javax.annotation-api:1.3.2"
-
-    api "com.exactpro.th2:grpc-service-generator:${serviceGeneratorVersion}"
-}
-
-sourceSets {
-    main {
-        // the proto plugins add generated dir to source sets
-        resources {
-            srcDirs "$genBaseDir/main/services/java/resources"
-        }
-    }
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:${protobufVersion}"
-    }
-    plugins {
-        grpc {
-            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
-        }
-        services {
-            artifact = "com.exactpro.th2:grpc-service-generator:${serviceGeneratorVersion}:all@jar"
-        }
-    }
-    generateProtoTasks {
-        all()*.plugins {
-            grpc {}
-            services {
-                option 'javaInterfacesPath=./java/src'
-                option 'javaInterfacesImplPath=./java/src'
-                option 'javaMetaInfPath=./java/resources'
-                option 'pythonPath=./python'
-            }
-        }
-        ofSourceSet('main')
-    }
-}
-
-compileJava.dependsOn.add('generateProto')
-processResources.dependsOn.add('generateProto')
-
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-// conditionals for publications
-tasks.withType(PublishToMavenRepository).configureEach {
-    onlyIf {
-        (repository == publishing.repositories.nexusRepository &&
-                project.hasProperty('nexus_user') &&
-                project.hasProperty('nexus_password') &&
-                project.hasProperty('nexus_url')) ||
-                (repository == publishing.repositories.sonatype &&
-                        project.hasProperty('sonatypeUsername') &&
-                        project.hasProperty('sonatypePassword'))
-    }
-}
-tasks.withType(Sign).configureEach {
-    onlyIf {
-        project.hasProperty('signingKey') &&
-                project.hasProperty('signingPassword')
-    }
-}
-
-// disable running task 'initializeSonatypeStagingRepository' on a gitlab
-tasks.configureEach { task ->
-    if (task.name.equals('initializeSonatypeStagingRepository') &&
-            !(project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword'))
-    ) {
-        task.enabled = false
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from(components.java)
-            pom {
-                name = rootProject.name
-                packaging = 'jar'
-                description = rootProject.description
-                url = vcs_url
-                scm {
-                    url = vcs_url
-                }
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'developer'
-                        name = 'developer'
-                        email = 'developer@exactpro.com'
-                    }
-                }
-                scm {
-                    url = vcs_url
-                }
-            }
-        }
-    }
-    repositories {
-        //Nexus repo to publish from gitlab
-        maven {
-            name = 'nexusRepository'
-            credentials {
-                username = project.findProperty('nexus_user')
-                password = project.findProperty('nexus_password')
-            }
-            url = project.findProperty('nexus_url')
-        }
-    }
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-        }
-    }
-}
-
-signing {
-    String signingKey = findProperty("signingKey")
-    String signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
-}
-
-dependencyLocking {
-    lockAllConfigurations()
-}
-
-dependencyCheck {
-    formats = ['SARIF', 'JSON', 'HTML']
-    failBuildOnCVSS = 5
-
-    analyzers {
-        assemblyEnabled = false
-        nugetconfEnabled = false
-        nodeEnabled = false
-    }
-}
-
-licenseReport {
-    def licenseNormalizerBundlePath = "$buildDir/license-normalizer-bundle.json"
-
-    if (!file(licenseNormalizerBundlePath).exists()) {
-        download.run {
-            src 'https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/license-normalizer-bundle.json'
-            dest "$buildDir/license-normalizer-bundle.json"
-            overwrite false
-        }
-    }
-
-    filters = [
-            new LicenseBundleNormalizer(licenseNormalizerBundlePath, false)
-    ]
-    renderers = [
-            new JsonReportRenderer('licenses.json', false),
-    ]
-    excludeOwnGroup = false
-    allowedLicensesFile = new URL("https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/allowed-licenses.json")
+    api 'com.exactpro.th2:grpc-common:4.5.0'
 }
