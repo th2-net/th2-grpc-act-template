@@ -14,10 +14,10 @@ jobs:
     with:
       build-mode: snapshot
     secrets:
-#      sonatypeUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
-#      sonatypePassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-#      sonatypeSigningKey: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
-#      sonatypeSigningPassword: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
+      sonatype-username: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+      sonatype-password: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+      sonatype-signing-key: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
+      sonatype-signing-password: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
       cisa-domain: ${{ secrets.CISA_DOMAIN }}
       cisa-user: ${{ secrets.CISA_USER }}
       cisa-password: ${{ secrets.CISA_PWD }}
