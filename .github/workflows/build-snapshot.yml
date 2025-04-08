@@ -14,7 +14,7 @@ jobs:
     uses: th2-net/.github/.github/workflows/compound-prebuild-java-dev-workflow.yml@main
   python-scan:
     name: Vulnerabilities scan
-    uses: th2-net/.github/.github/workflows/python-scan.yml@main
+    uses: th2-net/.github/.github/workflows/python-scan.yml@compound-grpc # FIXME: revert to main branch
   build-job:
     uses: th2-net/.github/.github/workflows/compound-java-dev.yml@main
     needs: [ python-scan ]
