@@ -1,0 +1,15 @@
+name: Build Java / Python snapshot
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - version-*
+    paths-ignore:
+      - README.md
+
+jobs:
+  build:
+    uses: th2-net/.github/.github/workflows/compound-grpc.yml@compound-grpc # FIXME: revert to main
+    with:
+      build-mode: snapshot
