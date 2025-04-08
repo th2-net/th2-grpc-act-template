@@ -1,4 +1,4 @@
-name: Build Java / Python snapshot
+name: test
 
 on:
   push:
