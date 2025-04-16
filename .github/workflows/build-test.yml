@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    uses: th2-net/.github/.github/workflows/compound-grpc.yml@compound-grpc # FIXME: revert to main
+    uses: th2-net/.github/.github/workflows/compound-grpc.yml@main
     with:
       build-mode: snapshot
     secrets:
