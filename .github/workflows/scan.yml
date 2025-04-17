@@ -13,6 +13,6 @@ jobs:
       cisa-domain: ${{ secrets.CISA_DOMAIN }}
       cisa-user: ${{ secrets.CISA_USER }}
       cisa-password: ${{ secrets.CISA_PWD }}
-  python-scan:
+  python-scan: # TODO: implement compound-python-scan
     name: Vulnerabilities scan
     uses: th2-net/.github/.github/workflows/python-scan.yml@main

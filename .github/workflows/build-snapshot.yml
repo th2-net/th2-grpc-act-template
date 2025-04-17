@@ -9,31 +9,16 @@ on:
       - README.md
 
 jobs:
-  get-version:
-    name: Get version from gradle.properties
-    uses: th2-net/.github/.github/workflows/compound-prebuild-java-dev-workflow.yml@main
-  python-scan:
-    name: Vulnerabilities scan
-    uses: th2-net/.github/.github/workflows/python-scan.yml@compound-grpc # FIXME: revert to main branch
-  build-job:
-    uses: th2-net/.github/.github/workflows/compound-java-dev.yml@main
-    needs: [ python-scan ]
+  build:
+    uses: th2-net/.github/.github/workflows/compound-grpc.yml@main
     with:
-      build-target: 'Sonatype'
+      build-mode: snapshot
     secrets:
-      sonatypeUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
-      sonatypePassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-      sonatypeSigningKey: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
-      sonatypeSigningPassword: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
-      nvd-api-key: ${{ secrets.NVD_APIKEY }}
+      sonatype-username: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+      sonatype-password: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+      sonatype-signing-key: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
+      sonatype-signing-password: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
+      pypi-password: ${{ secrets.PYPI_PASSWORD }}
       cisa-domain: ${{ secrets.CISA_DOMAIN }}
       cisa-user: ${{ secrets.CISA_USER }}
       cisa-password: ${{ secrets.CISA_PWD }}
-  build-python:
-    name: Dev build and Python distributions to PyPI
-    needs: [ get-version, python-scan ]
-    uses: th2-net/.github/.github/workflows/compaund-python-grpc-pypi-publication.yml@main
-    with:
-      custom-version: ${{ needs.get-version.outputs.versionNumber }}.dev${{ github.run_id }}
-    secrets:
-      pypi_password: ${{ secrets.PYPI_PASSWORD }}
