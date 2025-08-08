@@ -1,0 +1,19 @@
+name: dev release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: th2-net/.github/.github/workflows/compound-grpc.yml@main
+    with:
+      build-mode: dev-release
+    secrets:
+      sonatype-username: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+      sonatype-password: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+      sonatype-signing-key: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
+      sonatype-signing-password: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
+      pypi-password: ${{ secrets.PYPI_PASSWORD }}
+      cisa-domain: ${{ secrets.CISA_DOMAIN }}
+      cisa-user: ${{ secrets.CISA_USER }}
+      cisa-password: ${{ secrets.CISA_PWD }}

@@ -37,6 +37,8 @@ service Act {
   rpc placeOrderCancelReplaceRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
 
+  rpc sendRawMessage(SendRawMessageRequest) returns (SendRawMessageResponse) {}
+
   /*Send fix message without response awaiting */
   rpc sendMessage (PlaceMessageRequest) returns (SendMessageResponse) {
   }
@@ -63,6 +65,16 @@ service Act {
   }
 }
 
+message SendRawMessageRequest {
+  RawMessage raw = 1;
+  EventID parent_event_id = 4;
+}
+
+message SendRawMessageResponse {
+  RequestStatus status = 1;
+  Checkpoint checkpoint_id = 2;
+}
+
 message SendMessageResponse {
   RequestStatus status = 1;
   Checkpoint checkpoint_id = 2;
@@ -70,9 +82,7 @@ message SendMessageResponse {
 
 message PlaceMessageRequest {
   Message message = 1;
-  /* Please set connection_id into message. Act transfer this value into message
-   * automatically if message hasn't connectivityID for backward compatibility */
-  ConnectionID connection_id = 2 [deprecated = true];
+  reserved 2;
   EventID parent_event_id = 4;
   string description = 5;
 }

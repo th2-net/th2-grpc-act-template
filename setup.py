@@ -1,17 +1,3 @@
-#   Copyright 2020-2023 Exactpro (Exactpro Systems Limited)
-#
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-
 import json
 import os
 from distutils.cmd import Command
@@ -38,7 +24,7 @@ class ProtoGenerator(Command):
 
     def run(self):
         proto_path = os.path.abspath('src/main/proto')
-        gen_path = os.path.abspath('src/gen/main/python')
+        gen_path = os.path.abspath('build/generated/sources/proto/main/services/python')
 
         if not os.path.exists(gen_path):
             os.makedirs(gen_path)
@@ -72,8 +58,7 @@ class CustomDist(sdist):
     def run(self):
         copy_tree(f'src/main/proto/{package_name}', package_name)
 
-        copy_tree(f'src/gen/main/python/{package_name}', package_name)
-        copy_tree(f'src/gen/main/services/python/{package_name}', package_name)
+        copy_tree(f'build/generated/sources/proto/main/services/python/{package_name}', package_name)
         Path(f'{package_name}/__init__.py').touch()
         Path(f'{package_name}/py.typed').touch()
 
@@ -121,8 +106,8 @@ setup(
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        'th2-grpc-common>=3,<4',
-        'mypy-protobuf==3.2'
+        'th2-grpc-common~=4.7.1',
+        'mypy-protobuf~=3.6'
     ],
     packages=packages,
     package_data=package_data,
