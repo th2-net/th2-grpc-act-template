@@ -1,4 +1,4 @@
-FROM gradle:7.6-jdk11 as java_generator
+FROM gradle:8.11.1-jdk21 as java_generator
 WORKDIR /home/project
 ARG nexus_url
 ARG nexus_user
@@ -10,7 +10,7 @@ RUN ./gradlew clean build publish \
     -Pnexus_user=${nexus_user} \
     -Pnexus_password=${nexus_password}
     
-FROM python:3.8-slim as python_generator
+FROM python:3.9-slim as python_generator
 ARG pypi_repository_url
 ARG pypi_user
 ARG pypi_password

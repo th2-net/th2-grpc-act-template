@@ -1,0 +1,9 @@
+[versions]
+th2 = "0.3.4"
+
+[libraries]
+th2-grpc-common = { group = "com.exactpro.th2", name = "grpc-common", version = "4.6.0" }
+
+[plugins]
+th2-publish = { id = "com.exactpro.th2.gradle.publish", version.ref = "th2" }
+th2-grpc = { id = "com.exactpro.th2.gradle.grpc", version.ref = "th2" }
