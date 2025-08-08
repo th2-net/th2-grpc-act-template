@@ -1,0 +1,16 @@
+name: scan
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  java-check:
+    uses: th2-net/.github/.github/workflows/compound-java-scan.yml@main
+    secrets:
+      cisa-domain: ${{ secrets.CISA_DOMAIN }}
+      cisa-user: ${{ secrets.CISA_USER }}
+      cisa-password: ${{ secrets.CISA_PWD }}
+  python-check:
+    uses: th2-net/.github/.github/workflows/compound-python-check.yml@main # TODO: migrate to python scan
