@@ -1,4 +1,4 @@
-# th2 gRPC act template library (4.3.0)
+# th2 gRPC act template library (4.3.1)
 
 This is the template project for creating custom gRPC act libraries. It contains proto messages and `Act` service that
 are used [th2 act template](https://github.com/th2-net/th2-act-template-j "th2-act-template-j").
@@ -65,6 +65,13 @@ If you wish to manually create and publish a package for Python:
    `PYPI_REPOSITORY_URL`, `PYPI_USER` and `PYPI_PASSWORD` are parameters for publishing.
 
 ## Release notes
+
+### 4.3.1
+
++ Migrated to range python dependencies
++ Updated:
+  + th2 gradle plugin: `0.3.8` (bom: `4.14.1`)
+  + th2-grpc-common: `4.7.1`
 
 ### 4.3.0
 
