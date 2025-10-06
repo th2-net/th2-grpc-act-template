@@ -1,5 +1,5 @@
 [versions]
-th2 = "0.3.8"
+th2 = "0.3.9"
 
 [libraries]
 th2-grpc-common = { group = "com.exactpro.th2", name = "grpc-common", version = "4.7.2" }
