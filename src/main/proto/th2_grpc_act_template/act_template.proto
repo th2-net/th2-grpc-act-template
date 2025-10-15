@@ -61,7 +61,7 @@ service Act {
   rpc placeSecurityStatusRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
   }
 
-  rpc placeHttpRequest (PlaceMessageRequest) returns (PlaceMessageResponse) {
+  rpc placeHttpRequest (PlaceMessageRequest) returns (PlaceHttpResponse) {
   }
 
   rpc multiSendMessage (MultiSendRequest) returns (SendMessageResponse) {
@@ -94,6 +94,13 @@ message PlaceMessageResponse {
   Message response_message = 1;
   RequestStatus status = 2;
   Checkpoint checkpoint_id = 3;
+}
+
+message PlaceHttpResponse {
+  Message http_header = 1;
+  Message http_body = 2;
+  RequestStatus status = 3;
+  Checkpoint checkpoint_id = 4;
 }
 
 message MultiSendRequest {
