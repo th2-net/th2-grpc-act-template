@@ -98,7 +98,7 @@ message PlaceMessageResponse {
 
 message PlaceHttpRequest {
   Message http_header = 1;
-  Message http_body = 2;
+  AnyMessage http_body = 2;
   EventID parent_event_id = 3;
   string description = 4;
 }
