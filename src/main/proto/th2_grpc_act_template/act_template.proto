@@ -116,14 +116,14 @@ message PlaceMessageResponse {
 
 message PlaceHttpRequest {
   Message http_header = 1;
-  AnyMessage http_body = 2;
+  AnyMessage http_payload = 2;
   EventID parent_event_id = 3;
   string description = 4;
 }
 
 message PlaceHttpResponse {
   Message http_header = 1;
-  Message http_body = 2;
+  Message http_payload = 2;
   RequestStatus status = 3;
   Checkpoint checkpoint_id = 4;
 }
