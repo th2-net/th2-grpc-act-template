@@ -10,3 +10,14 @@ __pycache__/
 
 dist
 *egg-info
+
+# golang
+th2-grpc
+src/main/proto/th2_grpc_common
+src/main/proto/th2_grpc_check1
+bin/
+
+go.mod
+go.sum
+go.work
+go.work.sum
