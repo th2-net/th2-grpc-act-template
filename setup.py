@@ -6,7 +6,7 @@ from distutils.sysconfig import get_python_lib
 from pathlib import Path
 from shutil import rmtree
 
-from pkg_resources import resource_filename
+from importlib import resources
 from setuptools import setup, find_packages
 from setuptools.command.sdist import sdist
 
@@ -37,7 +37,7 @@ class ProtoGenerator(Command):
 
         protos = [('grpc_tools', '_proto')]
         protos_include = [f'--proto_path={proto_path}'] + \
-                         [f'--proto_path={resource_filename(x[0], x[1])}' for x in protos] + \
+                         [f'--proto_path={resources.files(x[0]) / x[1]}' for x in protos] + \
                          [f'--proto_path={get_python_lib()}']
 
         from grpc_tools import protoc
@@ -106,7 +106,7 @@ setup(
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        'th2-grpc-common>=4.7.2,<5'
+        'th2-grpc-common>=4.7.5,<5'
     ],
     packages=packages,
     package_data=package_data,
